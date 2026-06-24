@@ -2,6 +2,56 @@ import { useState, useEffect } from 'react';
 import { BentoCard } from './components/BentoCard';
 import { Sparkle, CircleSticker, AsteriskSticker, ZigZag, ArrowNeo, CrossSticker, PillSticker, SpringNeo, SmileNeo } from './components/BrutalistIcons';
 
+const carouselItems = [
+  { id: 1, img: '/imgs/dj.png', color: '#1DB954', backTitle: 'Live Sets', backText: 'Sync your live mixes directly to your profile.' },
+  { id: 2, img: '/imgs/guitar.png', color: '#FFED4A', backTitle: 'Tour Dates', backText: 'Keep fans updated with your latest shows.' },
+  { id: 3, img: '/imgs/headphones.png', color: '#8E84F3', backTitle: 'Releases', backText: 'Drop your latest tracks in high-fidelity.' },
+  { id: 4, img: '/imgs/mic.png', color: '#FF5500', backTitle: 'Podcasts', backText: 'Share your voice with the world seamlessly.' },
+  { id: 5, img: '/imgs/studio.png', color: '#6EF3A5', backTitle: 'Behind the Scenes', backText: 'Exclusive studio footage for superfans.' },
+  { id: 6, img: '/imgs/vinyl.png', color: '#FF0000', backTitle: 'Merch Drops', backText: 'Limited edition vinyls and apparel.' },
+  { id: 7, img: '/imgs/wave.png', color: '#111111', backTitle: 'Audio Stems', backText: 'Let fans remix your tracks.' },
+  { id: 8, img: '/imgs/crowd.png', color: '#00E5FF', backTitle: 'Community', backText: 'Build a loyal fanbase with direct engagement.' },
+];
+
+const CarouselCard = ({ item }: { item: typeof carouselItems[0] }) => {
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  return (
+    <div 
+      className="w-[400px] h-[400px] shrink-0 cursor-pointer perspective-[1000px] mx-4" 
+      onClick={() => setIsFlipped(!isFlipped)}
+    >
+      <div 
+        className={`w-full h-full relative transition-transform duration-700 [transform-style:preserve-3d] ${isFlipped ? '[transform:rotateY(180deg)]' : ''}`}
+      >
+        {/* Front */}
+        <div 
+          className="absolute inset-0 [backface-visibility:hidden] rounded-[2.5rem] border-[4px] border-black overflow-hidden group bg-white"
+          style={{ boxShadow: `8px 8px 0 ${item.color}` }}
+        >
+          {/* Aumentando o scale base para 1.15 para cortar a borda branca gerada na imagem, e no hover para 1.25 */}
+          <img src={item.img} className="w-full h-full object-cover scale-[1.15] group-hover:scale-[1.25] transition-transform duration-700" alt="Cover" />
+          
+          <div 
+            className="absolute bottom-6 left-1/2 -translate-x-1/2 border-4 border-black rounded-full px-6 py-2 text-center transform translate-y-10 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none"
+            style={{ backgroundColor: item.color, boxShadow: `4px 4px 0 #111111` }}
+          >
+             <span className={`font-black uppercase tracking-widest text-xs whitespace-nowrap ${item.color === '#111111' ? 'text-white' : 'text-black'}`}>Click to flip</span>
+          </div>
+        </div>
+        {/* Back */}
+        <div 
+          className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] rounded-[3rem] border-4 border-black p-8 flex flex-col justify-center items-center text-center"
+          style={{ backgroundColor: item.color, boxShadow: '8px 8px 0 #111111' }}
+        >
+           <h4 className={`text-3xl font-black uppercase tracking-tighter mb-4 ${item.color === '#111111' ? 'text-white' : 'text-black'}`}>{item.backTitle}</h4>
+           <p className={`font-bold text-base leading-snug ${item.color === '#111111' ? 'text-gray-300' : 'text-black/80'}`}>{item.backText}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function App() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [isNavVisible, setIsNavVisible] = useState(true);
@@ -94,7 +144,7 @@ function App() {
           </div>
           
           {/* Mobile Horizontal Marquee (Tablet/Mobile) */}
-          <div className="w-full relative h-[400px] lg:hidden flex items-center overflow-hidden mt-10">
+          <div className="w-[calc(100%+3rem)] -ml-6 relative h-[400px] lg:hidden flex items-center overflow-hidden mt-10">
             <div className="absolute left-0 w-max flex pointer-events-none">
               <div className="flex flex-row animate-marquee w-max h-full pointer-events-auto" style={{ animationDuration: '20s' }}>
                 {[...Array(2)].map((_, index) => (
@@ -264,52 +314,29 @@ function App() {
         </div>
       </section>
 
-      {/* SHARE ANYWHERE - PURE BLACK & NEON */}
-      <section className="bg-[#FFED4A] py-32 px-6 overflow-hidden">
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16">
-          <div className="flex-1 space-y-6">
-            <h1 className="text-[3.5rem] md:text-[6rem] lg:text-[7rem] leading-[0.85] font-black text-black mb-8 tracking-tighter uppercase relative z-10">
-              <CircleSticker className="w-16 h-16 md:w-24 md:h-24 text-white absolute -top-8 -left-8 md:-top-12 md:-left-12 -z-10" />
-              Stick it in your bio.<br/>
-              <span className="text-[#FFED4A] lowercase" style={{ textShadow: '-3px -3px 0 #111111, 3px -3px 0 #111111, -3px 3px 0 #111111, 3px 3px 0 #111111, 0px 3px 0 #111111, 0px -3px 0 #111111, 3px 0px 0 #111111, -3px 0px 0 #111111' }}>Go viral </span>
-              <span className="font-thin italic font-serif lowercase tracking-normal">everywhere.</span>
-              <ZigZag className="w-24 h-12 text-[#8E84F3] absolute bottom-4 -right-12 hidden md:block" />
-            </h1>
-            <p className="text-xl md:text-2xl text-black font-bold mb-10 max-w-lg leading-snug">
-              Add your custom BeatLink to your Instagram, TikTok, and YouTube descriptions. Track real-time analytics on which platform is driving the most streams.
-            </p>
-            <button className="bg-white text-black px-8 py-4 rounded-full font-black text-lg border-4 border-black shadow-[8px_8px_0_#6EF3A5] hover:-translate-y-1 hover:shadow-[12px_12px_0_#6EF3A5] transition-all mt-4">
-              Get your link
-            </button>
-          </div>
-
-          <div className="flex-1 relative w-full h-[500px] flex items-center justify-center">
-            {/* Stack of Neo-Brutalist Cards */}
-            <div className="relative w-[300px] h-[400px]">
-              <div className="absolute inset-0 bg-[#FFED4A] rounded-[3rem] border-4 border-black shadow-[8px_8px_0_#111111] transform translate-x-[120px] -rotate-12 transition-transform duration-500 hover:translate-x-[140px]"></div>
-              <div className="absolute inset-0 bg-[#1DB954] rounded-[3rem] border-4 border-black shadow-[8px_8px_0_#8E84F3] transform translate-x-[90px] -rotate-6 transition-transform duration-500 hover:translate-x-[110px]"></div>
-              <div className="absolute inset-0 bg-[#F4F4F4] rounded-[3rem] border-4 border-black shadow-[8px_8px_0_#111111] transform translate-x-[60px] rotate-0 transition-transform duration-500 hover:translate-x-[80px]"></div>
-              <div className="absolute inset-0 bg-[#6EF3A5] rounded-[3rem] border-4 border-black shadow-[8px_8px_0_#1DB954] transform translate-x-[30px] rotate-6 transition-transform duration-500 hover:translate-x-[50px]"></div>
-              
-              {/* Front Card - Link in Bio Mockup */}
-              <div className="absolute inset-0 bg-white border-4 border-black rounded-[3rem] shadow-[12px_12px_0_#111111] transform rotate-12 transition-transform duration-500 hover:rotate-6 hover:-translate-y-4 p-8 flex flex-col items-center justify-start z-10">
-                 <img src="https://images.unsplash.com/photo-1520813792240-56fc4a3765a7?w=150&fit=crop" className="w-24 h-24 rounded-full border-4 border-black shadow-[4px_4px_0_#FFED4A] mb-4 object-cover" alt="Avatar" />
-                 <h4 className="font-black text-black text-2xl tracking-tighter leading-none mb-1">@theband</h4>
-                 <span className="text-gray-500 font-bold text-xs uppercase tracking-widest mb-6">Link in Bio</span>
-                 
-                 <div className="w-full space-y-3">
-                   <div className="w-full h-12 bg-[#FFED4A] border-2 border-black rounded-xl shadow-[4px_4px_0_#111111] flex items-center justify-center text-white font-black uppercase text-sm tracking-widest hover:translate-x-1 transition-transform cursor-pointer">TikTok</div>
-                   <div className="w-full h-12 bg-[#1DB954] border-2 border-black rounded-xl shadow-[4px_4px_0_#6EF3A5] flex items-center justify-center text-black font-black uppercase text-sm tracking-widest hover:translate-x-1 transition-transform cursor-pointer">Spotify</div>
-                   <div className="w-full h-12 bg-black border-2 border-black rounded-xl shadow-[4px_4px_0_#6EF3A5] flex items-center justify-center text-[#6EF3A5] font-black uppercase text-sm tracking-widest hover:translate-x-1 transition-transform cursor-pointer">Merch</div>
-                 </div>
-              </div>
-            </div>
+      {/* INFINITE CAROUSEL - ARTISTS & PLATFORMS */}
+      <section className="bg-white py-32 overflow-hidden border-y-4 border-black">
+        <div className="max-w-7xl mx-auto px-6 mb-16 text-center relative z-10">
+          <Sparkle className="w-16 h-16 text-[#FFED4A] absolute -top-8 right-4 md:right-32 rotate-[45deg]" />
+          <h2 className="text-[3rem] md:text-[4rem] lg:text-[5rem] font-black leading-[0.95] tracking-tighter text-black">
+            Integrated with over 50 <br/><span className="text-[#8E84F3]">music platforms.</span>
+          </h2>
+          <AsteriskSticker className="w-12 h-12 text-[#1DB954] absolute -bottom-6 left-4 md:left-32 -rotate-[15deg] hidden md:block" />
+        </div>
+        
+        {/* Marquee Track */}
+        <div className="relative w-full flex overflow-hidden py-12 hover:[&>div]:[animation-play-state:paused]">
+          <div className="flex animate-marquee whitespace-nowrap min-w-max">
+            {/* Duplicating the array multiple times to ensure a seamless infinite loop */}
+            {[...carouselItems, ...carouselItems, ...carouselItems].map((item, index) => (
+              <CarouselCard key={`${item.id}-${index}`} item={item} />
+            ))}
           </div>
         </div>
       </section>
 
-      {/* STATS SECTION - BENTO GRID OFF-WHITE */}
-      <section className="bg-[#F4F4F4] py-32 px-6">
+      {/* STATS SECTION - BENTO GRID CYAN */}
+      <section className="bg-[#00E5FF] py-32 px-6 border-b-4 border-black">
         <div className="max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center gap-20">
           
           <div className="flex-1 grid grid-cols-2 gap-6 auto-rows-[180px] w-full max-w-xl perspective-1000">
@@ -319,30 +346,29 @@ function App() {
               <div className="flex justify-between items-start relative z-10">
                 <div>
                   <span className="block text-6xl font-black tracking-tighter mb-1">1.2M</span>
-                  <span className="font-bold tracking-widest uppercase text-xs">Monthly Streams</span>
+                  <span className="font-black tracking-widest uppercase text-xs">Monthly Streams</span>
                 </div>
-                <div className="bg-black text-white px-4 py-1.5 rounded-full font-bold text-xs">
-                  +12% 🔥
+                <div className="bg-black text-white px-4 py-2 rounded-full font-black text-sm border-2 border-transparent">
+                  +12%
                 </div>
               </div>
-              <div className="absolute -bottom-8 left-0 w-full h-32 opacity-30 group-hover:opacity-60 transition-opacity">
-                <svg viewBox="0 0 100 50" className="w-full h-full stroke-black fill-none" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M-10,50 L10,20 L30,40 L60,10 L80,30 L110,-10" className="animate-pulse" />
+              <div className="absolute bottom-0 left-0 w-full h-20 group-hover:scale-105 transition-transform duration-700 origin-bottom z-0 opacity-80">
+                <svg viewBox="0 0 100 50" className="w-full h-full stroke-black fill-none" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" preserveAspectRatio="none">
+                  <path d="M-10,50 L20,25 L40,40 L70,15 L90,30 L110,5" />
                 </svg>
               </div>
             </div>
             
             {/* Block 2: Tickets */}
-            <div className="col-span-1 rounded-[2.5rem] bg-[#FFED4A] text-white p-8 flex flex-col justify-center items-center text-center border-4 border-black shadow-[8px_8px_0_#111111] hover:-translate-y-2 hover:-translate-x-2 hover:shadow-[16px_16px_0_#111111] transition-all z-20">
+            <div className="col-span-1 rounded-[2.5rem] bg-[#FFED4A] text-black p-8 flex flex-col justify-center items-center text-center border-4 border-black shadow-[8px_8px_0_#111111] hover:-translate-y-2 hover:-translate-x-2 hover:shadow-[16px_16px_0_#111111] transition-all z-20">
               <span className="text-5xl font-black tracking-tighter mb-2">15k</span>
-              <span className="font-bold uppercase tracking-widest text-xs">Tickets Sold</span>
+              <span className="font-black uppercase tracking-widest text-xs">Tickets Sold</span>
             </div>
 
             {/* Block 3: Merch */}
             <div className="col-span-1 rounded-[2.5rem] bg-[#8E84F3] text-white p-8 flex flex-col justify-center items-center text-center border-4 border-black shadow-[8px_8px_0_#1DB954] hover:-translate-y-2 hover:-translate-x-2 hover:shadow-[16px_16px_0_#1DB954] transition-all z-20">
-              <div className="mb-2 text-4xl">🛒</div>
-              <span className="text-3xl font-black tracking-tighter mb-1">$45k</span>
-              <span className="font-bold uppercase tracking-widest text-xs text-[#6EF3A5]">Merch Rev</span>
+              <span className="text-4xl font-black tracking-tighter mb-2">$45k</span>
+              <span className="font-black uppercase tracking-widest text-xs text-[#6EF3A5]">Merch Rev</span>
             </div>
             
             {/* Block 4: Bar Chart */}
@@ -366,12 +392,72 @@ function App() {
               <span className="font-thin italic font-serif lowercase tracking-normal text-[#111111]">where your</span><br/>
               <span className="text-[#8E84F3]" style={{ textShadow: '-3px -3px 0 #111111, 3px -3px 0 #111111, -3px 3px 0 #111111, 3px 3px 0 #111111' }}>fans are.</span>
             </h2>
-            <p className="text-lg font-medium text-gray-600 max-w-lg leading-relaxed">
+            <p className="text-lg font-bold text-[#111111]/80 max-w-lg leading-relaxed">
               Powerful analytics let you track pre-saves, ticket conversions, and merch clicks in real-time. Know what's popping before the label does.
             </p>
             <button className="bg-[#111111] text-white px-8 py-4 rounded-full font-black uppercase tracking-widest border-4 border-transparent hover:bg-white hover:text-black hover:border-black transition-all mt-4 shadow-xl">
               View Analytics
             </button>
+          </div>
+        </div>
+      </section>
+
+      {/* SHARE ANYWHERE - PURE BLACK & NEON */}
+      <section className="bg-[#FFED4A] py-32 px-6 overflow-hidden">
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16">
+          <div className="flex-1 space-y-6">
+            <h1 className="text-[3rem] md:text-[6rem] lg:text-[7rem] leading-[0.85] font-black text-black mb-8 tracking-tighter uppercase relative z-10">
+              <CircleSticker className="w-12 h-12 md:w-24 md:h-24 text-white absolute -top-6 -left-2 md:-top-12 md:-left-12 -z-10" />
+              Stick it in your bio.<br/>
+              <span className="text-[#FFED4A] lowercase" style={{ textShadow: '-3px -3px 0 #111111, 3px -3px 0 #111111, -3px 3px 0 #111111, 3px 3px 0 #111111, 0px 3px 0 #111111, 0px -3px 0 #111111, 3px 0px 0 #111111, -3px 0px 0 #111111' }}>Go viral </span>
+              <span className="font-thin italic font-serif lowercase tracking-normal">everywhere.</span>
+              <ZigZag className="w-24 h-12 text-[#8E84F3] absolute bottom-4 -right-12 hidden md:block" />
+            </h1>
+            <p className="text-xl md:text-2xl text-black font-bold mb-10 max-w-lg leading-snug">
+              Add your custom BeatLink to your Instagram, TikTok, and YouTube descriptions. Track real-time analytics on which platform is driving the most streams.
+            </p>
+            <button className="bg-white text-black px-8 py-4 rounded-full font-black text-lg border-4 border-black shadow-[8px_8px_0_#6EF3A5] hover:-translate-y-1 hover:shadow-[12px_12px_0_#6EF3A5] transition-all mt-4">
+              Get your link
+            </button>
+          </div>
+
+          <div className="flex-1 relative w-full h-[600px] flex items-center justify-center">
+            {/* Bio Link Stack */}
+            <div className="relative w-[340px] h-[480px] group">
+              {/* Stack Layers - True Fan Effect (Leque) */}
+              <div className="absolute inset-0 bg-[#6EF3A5] border-[4px] border-black rounded-[2.5rem] origin-bottom -rotate-[8deg] -translate-x-8 translate-y-2 transition-all duration-500 group-hover:-rotate-[12deg] group-hover:-translate-x-12 group-hover:translate-y-4"></div>
+              <div className="absolute inset-0 bg-[#1DB954] border-[4px] border-black rounded-[2.5rem] origin-bottom rotate-[8deg] translate-x-8 translate-y-2 transition-all duration-500 group-hover:rotate-[12deg] group-hover:translate-x-12 group-hover:translate-y-4"></div>
+              <div className="absolute inset-0 bg-[#8E84F3] border-[4px] border-black rounded-[2.5rem] origin-bottom -rotate-[4deg] -translate-x-4 translate-y-1 transition-all duration-500 group-hover:-rotate-[6deg] group-hover:-translate-x-6 group-hover:translate-y-2"></div>
+              <div className="absolute inset-0 bg-[#FFED4A] border-[4px] border-black rounded-[2.5rem] origin-bottom rotate-[4deg] translate-x-4 translate-y-1 transition-all duration-500 group-hover:rotate-[6deg] group-hover:translate-x-6 group-hover:translate-y-2"></div>
+              
+              {/* Main Card */}
+              <div className="absolute inset-0 bg-white border-[4px] border-black rounded-[2.5rem] p-8 flex flex-col items-center shadow-[8px_8px_0_#111111] z-10 transition-transform duration-500 group-hover:-translate-y-1 group-hover:-translate-x-1">
+                
+                {/* Avatar */}
+                <div className="relative w-28 h-28 mb-4 mt-2">
+                  <div className="absolute inset-0 bg-[#FFED4A] rounded-full border-[4px] border-black translate-x-1.5 translate-y-1.5"></div>
+                  <div className="relative w-full h-full rounded-full border-[4px] border-black overflow-hidden bg-white z-10">
+                    <img src="/imgs/avatar.png" className="w-full h-full object-cover" alt="Profile" />
+                  </div>
+                </div>
+
+                <h3 className="text-3xl font-black text-black text-center mb-1 tracking-tight">@theband</h3>
+                <p className="text-center font-bold mb-8 text-gray-400 uppercase tracking-widest text-[10px]">Link in bio</p>
+                
+                {/* Buttons */}
+                <div className="flex flex-col gap-3 w-full px-2">
+                  <div className="bg-[#FFED4A] text-white px-6 py-3 rounded-2xl border-[4px] border-black font-black uppercase text-lg text-center shadow-[4px_4px_0_#111111] hover:-translate-y-0.5 hover:-translate-x-0.5 hover:shadow-[6px_6px_0_#111111] transition-all cursor-pointer [text-shadow:-1px_-1px_0_#111,1px_-1px_0_#111,-1px_1px_0_#111,1px_1px_0_#111]">
+                    TikTok
+                  </div>
+                  <div className="bg-[#1DB954] text-black px-6 py-3 rounded-2xl border-[4px] border-black font-black uppercase text-lg text-center shadow-[4px_4px_0_#111111] hover:-translate-y-0.5 hover:-translate-x-0.5 hover:shadow-[6px_6px_0_#111111] transition-all cursor-pointer">
+                    Spotify
+                  </div>
+                  <div className="bg-black text-[#6EF3A5] px-6 py-3 rounded-2xl border-[4px] border-black font-black uppercase text-lg text-center shadow-[4px_4px_0_#6EF3A5] hover:-translate-y-0.5 hover:-translate-x-0.5 hover:shadow-[6px_6px_0_#6EF3A5] transition-all cursor-pointer">
+                    Merch
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -388,133 +474,110 @@ function App() {
             </h2>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-[220px]">
-            {/* Block 1: Massive Featured (Cover Art / Video) - Pure Image */}
-            <div className="col-span-1 md:col-span-2 md:row-span-2 rounded-[3rem] bg-black p-8 flex flex-col justify-end relative overflow-hidden group border-4 border-black shadow-[8px_8px_0_#8E84F3] hover:-translate-y-1 hover:shadow-[12px_12px_0_#8E84F3] transition-all">
-              <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&q=80&fit=crop" className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700" alt="Music" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
-              <div className="relative z-10 flex flex-col items-start">
-                <span className="bg-[#6EF3A5] text-black px-4 py-2 rounded-full font-black text-xs uppercase tracking-widest mb-6 inline-block shadow-[4px_4px_0_#1DB954] border-2 border-black transform rotate-3">Featured Video</span>
-                <h3 className="text-5xl md:text-7xl font-black text-white leading-[0.85] tracking-tighter group-hover:scale-105 transition-transform origin-bottom-left uppercase">
-                  Watch<br/>
-                  <span className="font-thin italic font-serif lowercase tracking-normal">The</span><br/>
-                  <span className="text-[#6EF3A5]">Process.</span>
-                </h3>
-              </div>
-            </div>
-
-            {/* Block 2: Tour Pass (Vertical) - WHITE */}
-            <div className="col-span-1 md:col-span-1 md:row-span-2 rounded-[3rem] bg-white p-6 flex flex-col justify-between border-4 border-black hover:-translate-y-1 transition-transform relative overflow-hidden shadow-[8px_8px_0_#111111] group">
-              <div className="flex justify-between items-center mb-4 relative z-10">
-                <span className="font-black text-black text-xl tracking-tighter">VIP PASS</span>
-                <span className="text-black/50 font-bold">2026</span>
-              </div>
-              <div className="flex-1 flex items-center justify-center relative z-10">
-                {/* Barcode visual */}
-                <div className="flex gap-1 h-24 items-center group-hover:scale-105 transition-transform">
-                  {[2,4,1,3,6,2,5,1,4,2,7,1,3,5].map((w, i) => (
-                     <div key={i} className="bg-black h-full" style={{ width: `${w * 3}px` }}></div>
-                  ))}
+          <div className="flex flex-col md:flex-row gap-6 h-auto md:h-[800px]">
+            {/* Column 1 */}
+            <div className="flex-1 flex flex-col gap-6">
+              {/* Col 1 Top (Tall) */}
+              <div className="flex-[3] min-h-[300px] rounded-[3rem] bg-black p-8 flex flex-col justify-end relative overflow-hidden group border-4 border-black shadow-[8px_8px_0_#8E84F3] hover:-translate-y-1 hover:shadow-[12px_12px_0_#8E84F3] transition-all">
+                <img src="/imgs/dj.png" className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700" alt="DJ" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+                <div className="relative z-10 flex flex-col items-start">
+                  <span className="bg-[#6EF3A5] text-black px-4 py-2 rounded-full font-black text-xs uppercase tracking-widest mb-6 inline-block shadow-[4px_4px_0_#1DB954] border-2 border-black transform -rotate-2">Featured Video</span>
+                  <h3 className="text-5xl lg:text-6xl font-black text-white leading-[0.85] tracking-tighter group-hover:scale-105 transition-transform origin-bottom-left uppercase">
+                    Watch<br/>
+                    <span className="font-thin italic font-serif lowercase tracking-normal">The</span><br/>
+                    <span className="text-[#6EF3A5]">Process.</span>
+                  </h3>
                 </div>
               </div>
-              <div className="mt-4 relative z-10">
-                <p className="font-black text-3xl tracking-tighter text-black uppercase leading-none">World Tour</p>
-                <p className="font-bold text-black/60 text-sm mt-1">Add to Apple Wallet</p>
+
+              {/* Col 1 Bottom (Square) */}
+              <div className="flex-[2] min-h-[250px] rounded-[3rem] bg-[#1DB954] p-6 flex flex-col justify-center items-center text-center group cursor-pointer hover:brightness-110 transition-all shadow-[8px_8px_0_#111111] hover:-translate-y-1 relative overflow-hidden border-4 border-black">
+                <div className="w-20 h-20 rounded-full bg-black flex items-center justify-center mb-4 transition-transform group-hover:scale-110 shadow-[4px_4px_0_#6EF3A5]">
+                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-10 h-10 text-[#1DB954]">
+                    <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                  </svg>
+                </div>
+                <h3 className="text-black font-black text-2xl tracking-tight">Pre-Save Now</h3>
               </div>
             </div>
 
-            {/* Block 3: Pre-save (Square) - SPOTIFY GREEN */}
-            <div className="col-span-1 md:col-span-1 md:row-span-1 rounded-[3rem] bg-[#1DB954] p-6 flex flex-col justify-center items-center text-center group cursor-pointer hover:brightness-110 transition-all shadow-[8px_8px_0_#111111] hover:-translate-y-1 relative overflow-hidden border-4 border-black">
-              <div className="w-16 h-16 rounded-full bg-black flex items-center justify-center mb-4 transition-transform group-hover:scale-110 shadow-[4px_4px_0_#6EF3A5]">
-                <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8 text-[#1DB954]">
-                  <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
-                </svg>
+            {/* Column 2 */}
+            <div className="flex-1 flex flex-col gap-6">
+              {/* Col 2 Top (Square) */}
+              <div className="flex-[2] min-h-[250px] rounded-[3rem] bg-white p-6 flex flex-col justify-between border-4 border-black hover:-translate-y-1 transition-transform relative overflow-hidden shadow-[8px_8px_0_#111111] group">
+                <div className="flex justify-between items-center mb-4 relative z-10">
+                  <span className="font-black text-black text-2xl tracking-tighter">VIP PASS</span>
+                  <span className="text-black/50 font-black">2026</span>
+                </div>
+                <div className="flex-1 flex items-center justify-center relative z-10">
+                  <div className="flex gap-1 h-20 items-center group-hover:scale-105 transition-transform">
+                    {[2,4,1,3,6,2,5,1,4,2,7,1,3,5].map((w, i) => (
+                       <div key={i} className="bg-black h-full" style={{ width: `${w * 3}px` }}></div>
+                    ))}
+                  </div>
+                </div>
+                <div className="mt-4 relative z-10">
+                  <p className="font-black text-4xl tracking-tighter text-black uppercase leading-none">World Tour</p>
+                  <p className="font-bold text-black/60 text-sm mt-2 uppercase tracking-wider">Add to Apple Wallet</p>
+                </div>
               </div>
-              <h3 className="text-black font-black text-xl tracking-tight">Pre-Save Now</h3>
-            </div>
 
-            {/* Block 4: Fan Map (Square) - WHITE */}
-            <div className="col-span-1 md:col-span-1 md:row-span-1 rounded-[3rem] bg-[#F4F4F4] p-6 flex flex-col justify-between relative overflow-hidden border-4 border-black shadow-[8px_8px_0_#8E84F3]">
-              <div className="relative z-10">
-                <h3 className="text-black font-black text-[3.5rem] leading-none tracking-tighter">#1</h3>
-                <p className="text-gray-500 font-bold text-sm uppercase tracking-widest mt-2">In London, UK</p>
-              </div>
-              <div className="absolute -bottom-10 -right-4 text-[8rem] opacity-20 select-none pointer-events-none grayscale">🇬🇧</div>
-            </div>
-
-            {/* Block 5: Social Update (Horizontal) - ELECTRIC BLUE */}
-            <div className="col-span-1 md:col-span-2 md:row-span-1 rounded-[3rem] bg-[#8E84F3] p-8 flex flex-row items-center gap-6 border-4 border-black hover:bg-blue-700 transition-all cursor-pointer group shadow-[8px_8px_0_#111111] hover:shadow-[12px_12px_0_#111111] hover:-translate-y-1 relative overflow-hidden">
-               <div className="shrink-0 relative">
-                 <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=200&q=80&fit=crop" className="w-24 h-24 rounded-full object-cover border-4 border-white group-hover:scale-110 transition-transform shadow-xl" alt="Profile" />
-               </div>
-               <div className="flex flex-col text-left z-10">
-                 <div className="flex items-center gap-2 mb-2">
-                   <span className="text-white font-black text-xl">Rhythm Riot</span>
-                   <span className="bg-white text-[#8E84F3] text-[10px] px-2 py-0.5 rounded-full font-bold">VERIFIED</span>
+              {/* Col 2 Bottom (Tall) */}
+              <div className="flex-[3] min-h-[300px] rounded-[3rem] bg-[#8E84F3] p-8 flex flex-col justify-end border-4 border-black transition-all cursor-pointer group shadow-[8px_8px_0_#111111] hover:shadow-[12px_12px_0_#111111] hover:-translate-y-1 relative overflow-hidden">
+                 <img src="/imgs/crowd.png" className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700 mix-blend-multiply" alt="Crowd" />
+                 <div className="absolute inset-0 bg-gradient-to-t from-[#8E84F3] via-[#8E84F3]/80 to-transparent"></div>
+                 
+                 <div className="relative z-10 flex flex-col text-left">
+                   <div className="flex items-center gap-4 mb-4">
+                     <img src="/imgs/studio.png" className="w-16 h-16 rounded-full object-cover border-4 border-white shadow-xl" alt="Profile" />
+                     <div>
+                       <div className="flex items-center gap-2">
+                         <span className="text-white font-black text-2xl">Rhythm Riot</span>
+                         <span className="bg-[#6EF3A5] text-black text-[10px] px-2 py-0.5 rounded-full font-black">VERIFIED</span>
+                       </div>
+                       <span className="text-white/80 font-bold text-sm">@rhythm_riot</span>
+                     </div>
+                   </div>
+                   <p className="text-white font-bold leading-snug text-xl">"Album drops at midnight. Are you ready?"</p>
                  </div>
-                 <p className="text-white/90 font-medium leading-snug text-lg">"Album drops at midnight. Are you ready? 💿✨"</p>
-               </div>
-               <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4"></div>
+              </div>
             </div>
 
-            {/* Block 6: Newsletter / Mini Action - DEEP DARK */}
-            <div className="col-span-1 md:col-span-2 md:row-span-1 rounded-[3rem] bg-[#1E1E1E] p-8 flex flex-col justify-center border-4 border-black transition-all cursor-pointer group shadow-[8px_8px_0_#1DB954] hover:shadow-[12px_12px_0_#1DB954] hover:-translate-y-1 relative overflow-hidden">
-              <div className="absolute -left-10 -bottom-10 w-40 h-40 bg-[#6EF3A5]/20 rounded-full blur-3xl"></div>
-              <div className="flex items-center justify-between z-10">
-                <div>
-                  <h3 className="text-white font-black text-3xl tracking-tighter leading-none mb-2">Get early access</h3>
-                  <p className="text-gray-400 font-medium text-sm">Join the secret club. No spam, just music.</p>
+            {/* Column 3 */}
+            <div className="flex-1 flex flex-col gap-6">
+              {/* Col 3 Top (Very Tall) */}
+              <div className="flex-[4] min-h-[400px] rounded-[3rem] bg-[#FFED4A] p-8 flex flex-col relative overflow-hidden border-4 border-black shadow-[8px_8px_0_#1DB954] hover:-translate-y-1 hover:shadow-[12px_12px_0_#1DB954] transition-all group cursor-pointer">
+                <img src="/imgs/guitar.png" className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700" alt="Guitar" />
+                <div className="absolute inset-0 bg-gradient-to-b from-[#FFED4A]/90 via-[#FFED4A]/20 to-[#FFED4A]"></div>
+                
+                <div className="relative z-10 flex flex-col h-full justify-between">
+                  <div>
+                    <h3 className="text-black font-black text-6xl lg:text-7xl leading-[0.8] tracking-tighter uppercase drop-shadow-md">
+                      Tour<br/>
+                      <span className="font-thin italic font-serif lowercase drop-shadow-none">Dates</span>
+                    </h3>
+                  </div>
+                  <div className="bg-black text-white p-6 rounded-[2rem] border-4 border-black shadow-[4px_4px_0_#6EF3A5] transform rotate-2">
+                    <p className="font-black uppercase tracking-widest text-xs text-[#FFED4A] mb-2">Next Stop</p>
+                    <h4 className="font-black text-4xl uppercase tracking-tighter">London, UK</h4>
+                    <p className="font-bold mt-1 opacity-80">Wembley Stadium</p>
+                  </div>
                 </div>
-                <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center group-hover:bg-[#6EF3A5] transition-colors">
+              </div>
+
+              {/* Col 3 Bottom (Very Short) */}
+              <div className="flex-[1] min-h-[120px] rounded-[3rem] bg-[#1E1E1E] p-6 flex items-center justify-between border-4 border-black transition-all cursor-pointer group shadow-[8px_8px_0_#6EF3A5] hover:shadow-[12px_12px_0_#6EF3A5] hover:-translate-y-1 relative overflow-hidden">
+                <div className="absolute -left-10 -bottom-10 w-40 h-40 bg-[#6EF3A5]/20 rounded-full blur-3xl"></div>
+                <div className="z-10">
+                  <h3 className="text-white font-black text-2xl tracking-tighter leading-none mb-1">Early access</h3>
+                  <p className="text-gray-400 font-bold text-xs uppercase tracking-widest">Join the club</p>
+                </div>
+                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center group-hover:bg-[#6EF3A5] transition-colors shrink-0 z-10 border-2 border-transparent">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* INFINITE CAROUSEL - ARTISTS & PLATFORMS */}
-      <section className="bg-white py-32 overflow-hidden border-y-4 border-black">
-        <div className="max-w-7xl mx-auto px-6 mb-16 text-center relative z-10">
-          <Sparkle className="w-16 h-16 text-[#FFED4A] absolute -top-8 right-4 md:right-32 rotate-[45deg]" />
-          <h2 className="text-[3rem] md:text-[4rem] lg:text-[5rem] font-black leading-[0.95] tracking-tighter text-black">
-            Integrated with over 50 <br/><span className="text-[#8E84F3]">music platforms.</span>
-          </h2>
-          <AsteriskSticker className="w-12 h-12 text-[#1DB954] absolute -bottom-6 left-4 md:left-32 -rotate-[15deg] hidden md:block" />
-        </div>
-        
-        {/* Marquee Track */}
-        <div className="relative w-full flex overflow-hidden py-8 hover:[&>div]:[animation-play-state:paused]">
-          <div className="flex animate-marquee whitespace-nowrap min-w-max">
-            {[...Array(8)].map((_, index) => (
-              <div key={index} className="flex gap-6 pr-6 shrink-0">
-                <div className="w-[300px] h-[300px] bg-black rounded-[3rem] shrink-0 flex flex-col items-center justify-center text-white cursor-pointer border-4 border-black shadow-[8px_8px_0_#111111]">
-                  <span className="text-5xl font-black tracking-tighter text-[#1DB954]">Spotify</span>
-                </div>
-                <div className="w-[450px] h-[300px] bg-[#FFED4A] rounded-[3rem] shrink-0 flex items-center justify-center cursor-pointer text-white border-4 border-black shadow-[8px_8px_0_#FFED4A]">
-                  <span className="text-5xl font-black tracking-tighter">TikTok</span>
-                </div>
-                <div className="w-[300px] h-[300px] rounded-[3rem] shrink-0 overflow-hidden cursor-pointer border-4 border-black shadow-[8px_8px_0_#111111] relative bg-black">
-                  <img src="https://images.unsplash.com/photo-1461360228754-6e81c478b882?w=600&fit=crop" className="absolute inset-0 w-full h-full object-cover grayscale opacity-80" alt="Vinyl" />
-                </div>
-                <div className="w-[350px] h-[300px] bg-white rounded-[3rem] shrink-0 flex items-center justify-center text-black cursor-pointer border-4 border-black shadow-[8px_8px_0_#6EF3A5]">
-                  <span className="text-5xl font-black tracking-tighter">Apple Music</span>
-                </div>
-                <div className="w-[400px] h-[300px] bg-[#FF5500] rounded-[3rem] shrink-0 flex items-center justify-center cursor-pointer text-white border-4 border-black shadow-[8px_8px_0_#111111]">
-                  <span className="text-5xl font-black tracking-tighter">SoundCloud</span>
-                </div>
-                <div className="w-[300px] h-[300px] rounded-[3rem] shrink-0 overflow-hidden cursor-pointer border-4 border-black shadow-[8px_8px_0_#8E84F3] relative bg-black">
-                  <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=600&fit=crop" className="absolute inset-0 w-full h-full object-cover grayscale opacity-80 hover:scale-110 transition-transform duration-700" alt="Concert" />
-                </div>
-                <div className="w-[350px] h-[300px] bg-[#FF0000] rounded-[3rem] shrink-0 flex items-center justify-center cursor-pointer text-white border-4 border-black shadow-[8px_8px_0_#111111]">
-                  <span className="text-5xl font-black tracking-tighter">YouTube</span>
-                </div>
-                <div className="w-[300px] h-[300px] bg-black rounded-[3rem] shrink-0 flex items-center justify-center cursor-pointer text-white border-4 border-black shadow-[8px_8px_0_#1DB954]">
-                  <span className="text-5xl font-black tracking-tighter">TIDAL</span>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </section>
