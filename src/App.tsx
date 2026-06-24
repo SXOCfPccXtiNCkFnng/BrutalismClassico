@@ -1,8 +1,29 @@
+import { useState, useEffect } from 'react';
 import { BentoCard } from './components/BentoCard';
+import { Sparkle, CircleSticker, AsteriskSticker, ZigZag, ArrowNeo, CrossSticker, PillSticker, SpringNeo, SmileNeo } from './components/BrutalistIcons';
 
 function App() {
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [isNavVisible, setIsNavVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > lastScrollY && currentScrollY > 80) {
+        setIsNavVisible(false); // Scroll down
+      } else {
+        setIsNavVisible(true); // Scroll up
+      }
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
+
   return (
-    <div className="font-sans selection:bg-[#111111] selection:text-[#CCFF00] bg-[#111111]">
+    <div className="font-sans selection:bg-[#111111] selection:text-[#6EF3A5] bg-[#111111]">
       <style>
         {`
           @keyframes marquee {
@@ -10,7 +31,7 @@ function App() {
             100% { transform: translateX(-50%); }
           }
           .animate-marquee {
-            animation: marquee 30s linear infinite;
+            animation: marquee 120s linear infinite;
           }
           .animate-marquee:hover {
             animation-play-state: paused;
@@ -26,7 +47,7 @@ function App() {
       </style>
 
       {/* NAVBAR PILL */}
-      <nav className="fixed top-8 w-full z-50 px-6">
+      <nav className={`fixed top-0 w-full z-50 px-6 pt-8 transition-transform duration-300 ${isNavVisible ? 'translate-y-0' : '-translate-y-full'}`}>
         <div className="max-w-7xl mx-auto bg-white rounded-full h-20 flex items-center justify-between px-4 md:px-8 border-4 border-black shadow-[8px_8px_0_#111111]">
           <div className="flex items-center gap-8 xl:gap-12">
             <span className="text-2xl md:text-3xl font-black tracking-tight text-black flex items-center gap-1">
@@ -48,31 +69,64 @@ function App() {
       </nav>
 
       {/* HERO SECTION - VIBRANT ORANGE */}
-      <section className="bg-[#0038FF] pt-40 pb-20 px-6 min-h-[100vh] flex flex-col justify-center overflow-hidden relative">
+      <section className="bg-[#8E84F3] pt-40 pb-20 px-6 min-h-[100vh] flex flex-col justify-center overflow-hidden relative">
         <div className="max-w-7xl mx-auto w-full flex flex-col lg:flex-row items-center gap-16 relative z-10">
           
           <div className="flex-1 space-y-8 max-w-2xl py-10">
-            <h1 className="text-[5rem] lg:text-[6rem] font-black leading-[0.9] tracking-tighter text-[#F4F4F4]">
+            <h1 className="text-[3.5rem] md:text-[5rem] lg:text-[6rem] font-black leading-[0.9] tracking-tighter text-[#F4F4F4] relative">
+              <Sparkle className="w-16 h-16 text-[#FFED4A] absolute -top-12 -left-6 md:-left-10 rotate-12" />
               One link to drop your next track.
+              <AsteriskSticker className="w-12 h-12 text-[#6EF3A5] absolute -bottom-4 right-0 md:-right-8 -rotate-12" />
             </h1>
             <p className="text-xl font-bold text-[#F4F4F4]/80 max-w-lg leading-relaxed">
               Connect your fans to your latest singles, tour dates, merch drops, and Spotify playlists. BeatLink is the ultimate bio hub for modern musicians.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 max-w-lg pt-4">
-              <div className="flex items-center bg-[#1E1E1E] rounded-md h-16 flex-1 px-4 shadow-xl">
-                <span className="font-bold text-[#CCFF00]">beat.lk/</span>
-                <input type="text" placeholder="artistname" className="bg-transparent border-none outline-none w-full font-bold text-white h-full placeholder:text-gray-600" />
+            <div className="flex flex-col sm:flex-row gap-4 w-full max-w-xl pt-4">
+              <div className="flex items-center bg-white rounded-2xl h-16 flex-1 px-6 border-4 border-black shadow-[8px_8px_0_#FFED4A] focus-within:-translate-y-1 focus-within:shadow-[12px_12px_0_#FFED4A] transition-all">
+                <span className="font-bold text-gray-400 text-lg">beat.lk/</span>
+                <input type="text" placeholder="yourname" className="bg-transparent border-none outline-none w-full font-bold text-black h-full placeholder:text-gray-300 text-lg ml-1" />
               </div>
-              <button className="bg-[#CCFF00] text-[#1E1E1E] h-16 px-8 rounded-full font-black text-lg hover:scale-105 transition-transform shadow-xl whitespace-nowrap">
-                Start for free
+              <button className="bg-[#FFED4A] text-black h-16 px-8 rounded-full font-black text-lg border-4 border-black shadow-[8px_8px_0_#111111] hover:-translate-y-1 hover:shadow-[12px_12px_0_#111111] transition-all whitespace-nowrap">
+                Claim your link
               </button>
             </div>
           </div>
           
-          {/* Vertical Marquee Carousel Container */}
-          <div className="flex-1 w-full relative h-[600px] lg:h-full min-h-[800px] flex justify-center lg:justify-end">
-            
+          {/* Mobile Horizontal Marquee (Tablet/Mobile) */}
+          <div className="w-full relative h-[400px] lg:hidden flex items-center overflow-hidden mt-10">
+            <div className="absolute left-0 w-max flex pointer-events-none">
+              <div className="flex flex-row animate-marquee w-max h-full pointer-events-auto" style={{ animationDuration: '20s' }}>
+                {[...Array(2)].map((_, index) => (
+                  <div key={index} className="flex flex-row gap-4 md:gap-8 pr-4 md:pr-8 shrink-0">
+                    {/* Item 1 */}
+                    <div className="w-[250px] md:w-[350px] aspect-[4/5] bg-[#111111] rounded-[3rem] overflow-hidden shadow-2xl">
+                      <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&fit=crop" className="w-full h-full object-cover" />
+                    </div>
+                    {/* Item 2 */}
+                    <div className="w-[250px] md:w-[350px] aspect-[4/5] bg-[#111111] rounded-[3rem] overflow-hidden shadow-2xl">
+                      <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&fit=crop" className="w-full h-full object-cover" />
+                    </div>
+                    {/* Item 3 */}
+                    <div className="w-[250px] md:w-[350px] aspect-[4/5] bg-[#111111] rounded-[3rem] overflow-hidden shadow-2xl">
+                      <img src="https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800&fit=crop" className="w-full h-full object-cover" />
+                    </div>
+                    {/* Item 4 */}
+                    <div className="w-[250px] md:w-[350px] aspect-[4/5] bg-[#111111] rounded-[3rem] overflow-hidden shadow-2xl">
+                      <img src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=800&fit=crop" className="w-full h-full object-cover" />
+                    </div>
+                    {/* Item 5 */}
+                    <div className="w-[250px] md:w-[350px] aspect-[4/5] bg-[#111111] rounded-[3rem] overflow-hidden shadow-2xl">
+                      <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&fit=crop" className="w-full h-full object-cover" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Vertical Marquee Carousel Container (Desktop Original) */}
+          <div className="hidden lg:flex flex-1 w-full relative h-full min-h-[800px] justify-end">
             {/* Bleeding wrapper that extends far beyond the section vertically */}
             <div className="absolute top-[-50vh] bottom-[-50vh] w-full max-w-[450px] flex justify-center overflow-visible pointer-events-none">
               
@@ -113,7 +167,7 @@ function App() {
         <div className="max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center gap-16">
           <div className="flex-1 relative w-full h-[600px] flex items-center justify-center perspective-1000">
              {/* Mini Bento Grid Mockup replacing Phone */}
-             <div className="relative w-full max-w-[600px] h-auto transform -rotate-[4deg] hover:rotate-0 hover:-translate-y-2 transition-all duration-700 z-10 perspective-1000">
+             <div className="relative w-full max-w-[600px] h-auto transform -rotate-[4deg] hover:rotate-0 hover:-translate-y-2 transition-all duration-700 z-10 perspective-1000 scale-[0.8] sm:scale-100 origin-left sm:origin-center">
                <div className="grid grid-cols-3 gap-4 auto-rows-[120px]">
                   
                   {/* Block 1: Green Stat */}
@@ -129,7 +183,7 @@ function App() {
                   </div>
 
                   {/* Block 2: Dark Stat */}
-                  <div className="col-span-1 row-span-1 bg-[#FF0050] rounded-[2rem] p-5 flex flex-col justify-between shadow-lg border border-white/10">
+                  <div className="col-span-1 row-span-1 bg-[#FFED4A] rounded-[2rem] p-5 flex flex-col justify-between shadow-lg border border-white/10">
                     <span className="text-white/70 font-bold text-[10px] uppercase tracking-widest">New Fans</span>
                     <span className="text-white font-black text-[2.5rem] leading-none tracking-tighter">57K</span>
                     <span className="text-white font-bold text-xs">+12.5%</span>
@@ -137,12 +191,12 @@ function App() {
 
                   {/* Block 3: Vertical Team/Profile */}
                   <div className="col-span-1 row-span-2 bg-white rounded-[2rem] p-5 flex flex-col shadow-lg border border-gray-100 relative overflow-hidden">
-                    <span className="bg-[#CCFF00] text-black font-bold text-[10px] px-3 py-1 rounded-full w-max mb-3 uppercase tracking-widest">Global Reach</span>
+                    <span className="bg-[#6EF3A5] text-black font-bold text-[10px] px-3 py-1 rounded-full w-max mb-3 uppercase tracking-widest">Global Reach</span>
                     <p className="font-black text-black leading-tight text-sm">Fans across 50+ countries tuning in daily.</p>
                     <div className="mt-auto flex -space-x-3">
                       <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&fit=crop" className="w-10 h-10 rounded-full border-2 border-white object-cover shadow-sm"/>
                       <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&fit=crop" className="w-10 h-10 rounded-full border-2 border-white object-cover shadow-sm"/>
-                      <div className="w-10 h-10 rounded-full border-2 border-white bg-[#0038FF] text-white flex items-center justify-center text-xs font-bold shadow-sm">+9</div>
+                      <div className="w-10 h-10 rounded-full border-2 border-white bg-[#8E84F3] text-white flex items-center justify-center text-xs font-bold shadow-sm">+9</div>
                     </div>
                   </div>
 
@@ -150,7 +204,7 @@ function App() {
                   <div className="col-span-2 row-span-2 bg-gradient-to-br from-[#EAEFFF] to-white rounded-[2rem] p-6 flex flex-col justify-between shadow-lg border border-gray-100 relative overflow-hidden">
                     <div className="flex justify-between items-start relative z-10">
                       <div>
-                        <h4 className="text-[#0038FF] font-black text-xl tracking-tight leading-none mb-1">BeatLink Revenue</h4>
+                        <h4 className="text-[#8E84F3] font-black text-xl tracking-tight leading-none mb-1">BeatLink Revenue</h4>
                         <span className="text-gray-400 font-bold text-[10px] uppercase tracking-widest">This Year</span>
                       </div>
                       <div className="text-right">
@@ -165,13 +219,13 @@ function App() {
                     <div className="absolute bottom-0 left-0 w-full h-32 z-0">
                       <svg viewBox="0 0 100 40" className="w-full h-full" preserveAspectRatio="none">
                         <path d="M0,30 Q15,20 25,35 T50,25 T75,30 T100,10 L100,40 L0,40 Z" fill="url(#grad1)" opacity="0.3"></path>
-                        <path d="M0,30 Q15,20 25,35 T50,25 T75,30 T100,10" fill="none" stroke="#0038FF" strokeWidth="2"></path>
-                        <circle cx="25" cy="35" r="2" fill="white" stroke="#0038FF" strokeWidth="1"></circle>
-                        <circle cx="75" cy="30" r="2" fill="white" stroke="#0038FF" strokeWidth="1"></circle>
+                        <path d="M0,30 Q15,20 25,35 T50,25 T75,30 T100,10" fill="none" stroke="#8E84F3" strokeWidth="2"></path>
+                        <circle cx="25" cy="35" r="2" fill="white" stroke="#8E84F3" strokeWidth="1"></circle>
+                        <circle cx="75" cy="30" r="2" fill="white" stroke="#8E84F3" strokeWidth="1"></circle>
                         <defs>
                           <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stopColor="#0038FF" stopOpacity="1" />
-                            <stop offset="100%" stopColor="#0038FF" stopOpacity="0" />
+                            <stop offset="0%" stopColor="#8E84F3" stopOpacity="1" />
+                            <stop offset="100%" stopColor="#8E84F3" stopOpacity="0" />
                           </linearGradient>
                         </defs>
                       </svg>
@@ -186,18 +240,18 @@ function App() {
                   </div>
 
                   {/* Block 6: Wide Lime Banner */}
-                  <div className="col-span-2 row-span-1 bg-[#CCFF00] rounded-[2rem] p-5 flex items-center justify-between shadow-lg">
+                  <div className="col-span-2 row-span-1 bg-[#6EF3A5] rounded-[2rem] p-5 flex items-center justify-between shadow-lg">
                     <div>
                        <h4 className="text-black font-black text-xl tracking-tight leading-none mb-1">Monetize your link.</h4>
                        <span className="text-black/70 font-bold text-xs uppercase tracking-widest">Direct to fans</span>
                     </div>
                     <div className="w-12 h-12 bg-black rounded-full flex items-center justify-center">
-                       <span className="text-[#CCFF00] font-black">→</span>
+                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-[#6EF3A5]"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                     </div>
                   </div>
 
                   {/* Block 7: Logo Block */}
-                  <div className="col-span-1 row-span-1 bg-[#0038FF] rounded-[2rem] p-5 flex flex-col items-center justify-center shadow-lg group cursor-pointer overflow-hidden relative">
+                  <div className="col-span-1 row-span-1 bg-[#8E84F3] rounded-[2rem] p-5 flex flex-col items-center justify-center shadow-lg group cursor-pointer overflow-hidden relative">
                     <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=200')] bg-cover bg-center opacity-20 group-hover:scale-110 transition-transform duration-700"></div>
                     <div className="relative z-10 text-center">
                       <span className="text-white font-black text-3xl tracking-tighter block leading-none">BL.</span>
@@ -210,13 +264,14 @@ function App() {
           </div>
 
           <div className="flex-1 space-y-6">
-            <h2 className="text-[4rem] lg:text-[5rem] font-black leading-[0.95] tracking-tighter text-[#CCFF00]">
+            <h2 className="text-[3rem] md:text-[4rem] lg:text-[5rem] font-black leading-[0.95] tracking-tighter text-[#6EF3A5] relative z-10">
               Drop your music, <br/>we handle the rest.
+              <ArrowNeo className="w-20 h-20 text-[#FFED4A] absolute -bottom-16 -right-10 md:right-10 rotate-[15deg] hidden md:block" />
             </h2>
             <p className="text-lg font-medium text-gray-300 max-w-lg leading-relaxed opacity-90">
               Your fans want everything in one place. Connect your Spotify, Apple Music, bandsintown, and Shopify store. BeatLink automatically routes them to the right app.
             </p>
-            <button className="bg-[#CCFF00] text-black px-8 py-4 rounded-full font-black text-lg border-4 border-[#CCFF00] hover:bg-transparent hover:text-[#CCFF00] transition-colors mt-4 shadow-xl">
+            <button className="bg-[#6EF3A5] text-black px-8 py-4 rounded-full font-black text-lg border-4 border-[#6EF3A5] hover:bg-transparent hover:text-[#6EF3A5] transition-colors mt-4 shadow-xl">
               Create your profile
             </button>
           </div>
@@ -224,16 +279,20 @@ function App() {
       </section>
 
       {/* SHARE ANYWHERE - PURE BLACK & NEON */}
-      <section className="bg-[#FF0050] py-32 px-6 overflow-hidden">
+      <section className="bg-[#FFED4A] py-32 px-6 overflow-hidden">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16">
           <div className="flex-1 space-y-6">
-            <h2 className="text-[4rem] lg:text-[5rem] font-black leading-[0.95] tracking-tighter text-black">
-              Stick it in your bio. <br/>Go viral everywhere.
-            </h2>
-            <p className="text-lg font-bold text-white max-w-lg leading-relaxed">
+            <h1 className="text-[3.5rem] md:text-[6rem] lg:text-[7rem] leading-[0.85] font-black text-black mb-8 tracking-tighter uppercase relative z-10">
+              <CircleSticker className="w-16 h-16 md:w-24 md:h-24 text-white absolute -top-8 -left-8 md:-top-12 md:-left-12 -z-10" />
+              Stick it in your bio.<br/>
+              <span className="text-[#FFED4A] lowercase" style={{ textShadow: '-3px -3px 0 #111111, 3px -3px 0 #111111, -3px 3px 0 #111111, 3px 3px 0 #111111, 0px 3px 0 #111111, 0px -3px 0 #111111, 3px 0px 0 #111111, -3px 0px 0 #111111' }}>Go viral </span>
+              <span className="font-thin italic font-serif lowercase tracking-normal">everywhere.</span>
+              <ZigZag className="w-24 h-12 text-[#8E84F3] absolute bottom-4 -right-12 hidden md:block" />
+            </h1>
+            <p className="text-xl md:text-2xl text-black font-bold mb-10 max-w-lg leading-snug">
               Add your custom BeatLink to your Instagram, TikTok, and YouTube descriptions. Track real-time analytics on which platform is driving the most streams.
             </p>
-            <button className="bg-white text-black px-8 py-4 rounded-full font-black text-lg border-4 border-black shadow-[8px_8px_0_#111111] hover:-translate-y-1 hover:shadow-[12px_12px_0_#111111] transition-all mt-4">
+            <button className="bg-white text-black px-8 py-4 rounded-full font-black text-lg border-4 border-black shadow-[8px_8px_0_#6EF3A5] hover:-translate-y-1 hover:shadow-[12px_12px_0_#6EF3A5] transition-all mt-4">
               Get your link
             </button>
           </div>
@@ -241,21 +300,21 @@ function App() {
           <div className="flex-1 relative w-full h-[500px] flex items-center justify-center">
             {/* Stack of Neo-Brutalist Cards */}
             <div className="relative w-[300px] h-[400px]">
-              <div className="absolute inset-0 bg-[#FF0050] rounded-[3rem] border-4 border-black shadow-[8px_8px_0_#111111] transform translate-x-[120px] -rotate-12 transition-transform duration-500 hover:translate-x-[140px]"></div>
-              <div className="absolute inset-0 bg-[#1DB954] rounded-[3rem] border-4 border-black shadow-[8px_8px_0_#111111] transform translate-x-[90px] -rotate-6 transition-transform duration-500 hover:translate-x-[110px]"></div>
+              <div className="absolute inset-0 bg-[#FFED4A] rounded-[3rem] border-4 border-black shadow-[8px_8px_0_#111111] transform translate-x-[120px] -rotate-12 transition-transform duration-500 hover:translate-x-[140px]"></div>
+              <div className="absolute inset-0 bg-[#1DB954] rounded-[3rem] border-4 border-black shadow-[8px_8px_0_#8E84F3] transform translate-x-[90px] -rotate-6 transition-transform duration-500 hover:translate-x-[110px]"></div>
               <div className="absolute inset-0 bg-[#F4F4F4] rounded-[3rem] border-4 border-black shadow-[8px_8px_0_#111111] transform translate-x-[60px] rotate-0 transition-transform duration-500 hover:translate-x-[80px]"></div>
-              <div className="absolute inset-0 bg-[#CCFF00] rounded-[3rem] border-4 border-black shadow-[8px_8px_0_#111111] transform translate-x-[30px] rotate-6 transition-transform duration-500 hover:translate-x-[50px]"></div>
+              <div className="absolute inset-0 bg-[#6EF3A5] rounded-[3rem] border-4 border-black shadow-[8px_8px_0_#1DB954] transform translate-x-[30px] rotate-6 transition-transform duration-500 hover:translate-x-[50px]"></div>
               
               {/* Front Card - Link in Bio Mockup */}
               <div className="absolute inset-0 bg-white border-4 border-black rounded-[3rem] shadow-[12px_12px_0_#111111] transform rotate-12 transition-transform duration-500 hover:rotate-6 hover:-translate-y-4 p-8 flex flex-col items-center justify-start z-10">
-                 <img src="https://images.unsplash.com/photo-1520813792240-56fc4a3765a7?w=150&fit=crop" className="w-24 h-24 rounded-full border-4 border-black shadow-[4px_4px_0_#111111] mb-4 object-cover" alt="Avatar" />
+                 <img src="https://images.unsplash.com/photo-1520813792240-56fc4a3765a7?w=150&fit=crop" className="w-24 h-24 rounded-full border-4 border-black shadow-[4px_4px_0_#FFED4A] mb-4 object-cover" alt="Avatar" />
                  <h4 className="font-black text-black text-2xl tracking-tighter leading-none mb-1">@theband</h4>
                  <span className="text-gray-500 font-bold text-xs uppercase tracking-widest mb-6">Link in Bio</span>
                  
                  <div className="w-full space-y-3">
-                   <div className="w-full h-12 bg-[#FF0050] border-2 border-black rounded-xl shadow-[4px_4px_0_#111111] flex items-center justify-center text-white font-black uppercase text-sm tracking-widest hover:translate-x-1 transition-transform cursor-pointer">TikTok</div>
-                   <div className="w-full h-12 bg-[#1DB954] border-2 border-black rounded-xl shadow-[4px_4px_0_#111111] flex items-center justify-center text-black font-black uppercase text-sm tracking-widest hover:translate-x-1 transition-transform cursor-pointer">Spotify</div>
-                   <div className="w-full h-12 bg-black border-2 border-black rounded-xl shadow-[4px_4px_0_#CCFF00] flex items-center justify-center text-[#CCFF00] font-black uppercase text-sm tracking-widest hover:translate-x-1 transition-transform cursor-pointer">Merch</div>
+                   <div className="w-full h-12 bg-[#FFED4A] border-2 border-black rounded-xl shadow-[4px_4px_0_#111111] flex items-center justify-center text-white font-black uppercase text-sm tracking-widest hover:translate-x-1 transition-transform cursor-pointer">TikTok</div>
+                   <div className="w-full h-12 bg-[#1DB954] border-2 border-black rounded-xl shadow-[4px_4px_0_#6EF3A5] flex items-center justify-center text-black font-black uppercase text-sm tracking-widest hover:translate-x-1 transition-transform cursor-pointer">Spotify</div>
+                   <div className="w-full h-12 bg-black border-2 border-black rounded-xl shadow-[4px_4px_0_#6EF3A5] flex items-center justify-center text-[#6EF3A5] font-black uppercase text-sm tracking-widest hover:translate-x-1 transition-transform cursor-pointer">Merch</div>
                  </div>
               </div>
             </div>
@@ -270,7 +329,7 @@ function App() {
           <div className="flex-1 grid grid-cols-2 gap-6 auto-rows-[180px] w-full max-w-xl perspective-1000">
             
             {/* Block 1: Big Chart */}
-            <div className="col-span-2 rounded-[2.5rem] bg-[#CCFF00] text-black p-8 flex flex-col justify-between border-4 border-black shadow-[8px_8px_0_#111111] hover:-translate-y-2 hover:-translate-x-2 hover:shadow-[16px_16px_0_#111111] transition-all relative overflow-hidden group z-10">
+            <div className="col-span-2 rounded-[2.5rem] bg-[#6EF3A5] text-black p-8 flex flex-col justify-between border-4 border-black shadow-[8px_8px_0_#8E84F3] hover:-translate-y-2 hover:-translate-x-2 hover:shadow-[16px_16px_0_#8E84F3] transition-all relative overflow-hidden group z-10">
               <div className="flex justify-between items-start relative z-10">
                 <div>
                   <span className="block text-6xl font-black tracking-tighter mb-1">1.2M</span>
@@ -288,23 +347,23 @@ function App() {
             </div>
             
             {/* Block 2: Tickets */}
-            <div className="col-span-1 rounded-[2.5rem] bg-[#FF0050] text-white p-8 flex flex-col justify-center items-center text-center border-4 border-black shadow-[8px_8px_0_#111111] hover:-translate-y-2 hover:-translate-x-2 hover:shadow-[16px_16px_0_#111111] transition-all z-20">
+            <div className="col-span-1 rounded-[2.5rem] bg-[#FFED4A] text-white p-8 flex flex-col justify-center items-center text-center border-4 border-black shadow-[8px_8px_0_#111111] hover:-translate-y-2 hover:-translate-x-2 hover:shadow-[16px_16px_0_#111111] transition-all z-20">
               <span className="text-5xl font-black tracking-tighter mb-2">15k</span>
               <span className="font-bold uppercase tracking-widest text-xs">Tickets Sold</span>
             </div>
 
             {/* Block 3: Merch */}
-            <div className="col-span-1 rounded-[2.5rem] bg-[#0038FF] text-white p-8 flex flex-col justify-center items-center text-center border-4 border-black shadow-[8px_8px_0_#111111] hover:-translate-y-2 hover:-translate-x-2 hover:shadow-[16px_16px_0_#111111] transition-all z-20">
+            <div className="col-span-1 rounded-[2.5rem] bg-[#8E84F3] text-white p-8 flex flex-col justify-center items-center text-center border-4 border-black shadow-[8px_8px_0_#1DB954] hover:-translate-y-2 hover:-translate-x-2 hover:shadow-[16px_16px_0_#1DB954] transition-all z-20">
               <div className="mb-2 text-4xl">🛒</div>
               <span className="text-3xl font-black tracking-tighter mb-1">$45k</span>
-              <span className="font-bold uppercase tracking-widest text-xs text-[#CCFF00]">Merch Rev</span>
+              <span className="font-bold uppercase tracking-widest text-xs text-[#6EF3A5]">Merch Rev</span>
             </div>
             
             {/* Block 4: Bar Chart */}
             <div className="col-span-2 rounded-[2.5rem] bg-white text-black p-8 flex flex-row items-center justify-between border-4 border-black shadow-[8px_8px_0_#111111] hover:-translate-y-2 hover:-translate-x-2 hover:shadow-[16px_16px_0_#111111] transition-all z-10">
               <div className="flex gap-3 items-end h-16">
                 {[40, 70, 40, 90, 60, 100, 30].map((h, i) => (
-                  <div key={i} className="w-5 bg-black rounded-t-sm relative group-hover:bg-[#0038FF] transition-colors" style={{ height: `${h}%` }}></div>
+                  <div key={i} className="w-5 bg-black rounded-t-sm relative group-hover:bg-[#8E84F3] transition-colors" style={{ height: `${h}%` }}></div>
                 ))}
               </div>
               <div className="text-right flex flex-col justify-center">
@@ -315,7 +374,8 @@ function App() {
           </div>
 
           <div className="flex-1 space-y-6">
-            <h2 className="text-[4rem] lg:text-[5rem] font-black leading-[0.95] tracking-tighter text-[#111111]">
+            <h2 className="text-[3rem] md:text-[4rem] lg:text-[5rem] font-black leading-[0.95] tracking-tighter text-[#111111] relative z-10">
+              <SpringNeo className="w-20 h-20 text-[#1DB954] absolute -top-12 -left-8 md:-left-12 -z-10 -rotate-12" />
               Know exactly where your fans are listening.
             </h2>
             <p className="text-lg font-medium text-gray-600 max-w-lg leading-relaxed">
@@ -329,23 +389,27 @@ function App() {
       </section>
 
       {/* THE ULTIMATE BENTO GRID SECTION */}
-      <section className="bg-[#CCFF00] py-32 px-6 overflow-hidden">
+      <section className="bg-[#6EF3A5] py-32 px-6 overflow-hidden">
         <div className="max-w-7xl mx-auto space-y-16">
-          <div className="text-center max-w-3xl mx-auto">
-            <h2 className="text-[4rem] lg:text-[5rem] font-black leading-[0.9] tracking-tighter text-black">
-              Everything you need. <br/><span className="text-[#0038FF]">In one grid.</span>
+          <div className="text-center max-w-3xl mx-auto relative z-10">
+            <CrossSticker className="w-16 h-16 text-[#FFED4A] absolute -top-8 -left-4 md:-top-10 md:-left-12 rotate-12" />
+            <h2 className="text-[3rem] md:text-[4rem] lg:text-[5rem] font-black leading-[0.9] tracking-tighter text-black">
+              Everything you need. <br/><span className="text-[#8E84F3]">In one grid.</span>
             </h2>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-[220px]">
             {/* Block 1: Massive Featured (Cover Art / Video) - Pure Image */}
-            <div className="col-span-1 md:col-span-2 md:row-span-2 rounded-[3rem] bg-black p-8 flex flex-col justify-end relative overflow-hidden group border-4 border-black shadow-[8px_8px_0_#111111]">
+            <div className="col-span-1 md:col-span-2 md:row-span-2 rounded-[3rem] bg-black p-8 flex flex-col justify-end relative overflow-hidden group border-4 border-black shadow-[8px_8px_0_#8E84F3] hover:-translate-y-1 hover:shadow-[12px_12px_0_#8E84F3] transition-all">
               <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&q=80&fit=crop" className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700" alt="Music" />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
-              <div className="relative z-10">
-                <span className="bg-[#CCFF00] text-black px-4 py-1.5 rounded-full font-bold text-xs uppercase tracking-widest mb-4 inline-block shadow-[4px_4px_0_#111111] border-2 border-black">Featured Video</span>
-                <h3 className="text-4xl font-black text-white tracking-tighter leading-none mb-2">Midnight Sessions</h3>
-                <p className="text-gray-300 font-medium">Watch the official music video now.</p>
+              <div className="relative z-10 flex flex-col items-start">
+                <span className="bg-[#6EF3A5] text-black px-4 py-2 rounded-full font-black text-xs uppercase tracking-widest mb-6 inline-block shadow-[4px_4px_0_#1DB954] border-2 border-black transform rotate-3">Featured Video</span>
+                <h3 className="text-5xl md:text-7xl font-black text-white leading-[0.85] tracking-tighter group-hover:scale-105 transition-transform origin-bottom-left uppercase">
+                  Watch<br/>
+                  <span className="font-thin italic font-serif lowercase tracking-normal">The</span><br/>
+                  <span className="text-[#6EF3A5]">Process.</span>
+                </h3>
               </div>
             </div>
 
@@ -371,14 +435,16 @@ function App() {
 
             {/* Block 3: Pre-save (Square) - SPOTIFY GREEN */}
             <div className="col-span-1 md:col-span-1 md:row-span-1 rounded-[3rem] bg-[#1DB954] p-6 flex flex-col justify-center items-center text-center group cursor-pointer hover:brightness-110 transition-all shadow-[8px_8px_0_#111111] hover:-translate-y-1 relative overflow-hidden border-4 border-black">
-              <div className="w-16 h-16 rounded-full bg-black flex items-center justify-center mb-4 transition-transform group-hover:scale-110 shadow-lg">
-                <span className="text-3xl">🎵</span>
+              <div className="w-16 h-16 rounded-full bg-black flex items-center justify-center mb-4 transition-transform group-hover:scale-110 shadow-[4px_4px_0_#6EF3A5]">
+                <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8 text-[#1DB954]">
+                  <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                </svg>
               </div>
               <h3 className="text-black font-black text-xl tracking-tight">Pre-Save Now</h3>
             </div>
 
             {/* Block 4: Fan Map (Square) - WHITE */}
-            <div className="col-span-1 md:col-span-1 md:row-span-1 rounded-[3rem] bg-[#F4F4F4] p-6 flex flex-col justify-between relative overflow-hidden border-4 border-black shadow-[8px_8px_0_#0038FF]">
+            <div className="col-span-1 md:col-span-1 md:row-span-1 rounded-[3rem] bg-[#F4F4F4] p-6 flex flex-col justify-between relative overflow-hidden border-4 border-black shadow-[8px_8px_0_#8E84F3]">
               <div className="relative z-10">
                 <h3 className="text-black font-black text-[3.5rem] leading-none tracking-tighter">#1</h3>
                 <p className="text-gray-500 font-bold text-sm uppercase tracking-widest mt-2">In London, UK</p>
@@ -387,14 +453,14 @@ function App() {
             </div>
 
             {/* Block 5: Social Update (Horizontal) - ELECTRIC BLUE */}
-            <div className="col-span-1 md:col-span-2 md:row-span-1 rounded-[3rem] bg-[#0038FF] p-8 flex flex-row items-center gap-6 border-4 border-black hover:bg-blue-700 transition-all cursor-pointer group shadow-[8px_8px_0_#111111] hover:shadow-[12px_12px_0_#111111] hover:-translate-y-1 relative overflow-hidden">
+            <div className="col-span-1 md:col-span-2 md:row-span-1 rounded-[3rem] bg-[#8E84F3] p-8 flex flex-row items-center gap-6 border-4 border-black hover:bg-blue-700 transition-all cursor-pointer group shadow-[8px_8px_0_#111111] hover:shadow-[12px_12px_0_#111111] hover:-translate-y-1 relative overflow-hidden">
                <div className="shrink-0 relative">
                  <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=200&q=80&fit=crop" className="w-24 h-24 rounded-full object-cover border-4 border-white group-hover:scale-110 transition-transform shadow-xl" alt="Profile" />
                </div>
                <div className="flex flex-col text-left z-10">
                  <div className="flex items-center gap-2 mb-2">
                    <span className="text-white font-black text-xl">Rhythm Riot</span>
-                   <span className="bg-white text-[#0038FF] text-[10px] px-2 py-0.5 rounded-full font-bold">VERIFIED</span>
+                   <span className="bg-white text-[#8E84F3] text-[10px] px-2 py-0.5 rounded-full font-bold">VERIFIED</span>
                  </div>
                  <p className="text-white/90 font-medium leading-snug text-lg">"Album drops at midnight. Are you ready? 💿✨"</p>
                </div>
@@ -402,15 +468,15 @@ function App() {
             </div>
 
             {/* Block 6: Newsletter / Mini Action - DEEP DARK */}
-            <div className="col-span-1 md:col-span-2 md:row-span-1 rounded-[3rem] bg-[#1E1E1E] p-8 flex flex-col justify-center border-4 border-black transition-all cursor-pointer group shadow-[8px_8px_0_#111111] hover:shadow-[12px_12px_0_#111111] hover:-translate-y-1 relative overflow-hidden">
-              <div className="absolute -left-10 -bottom-10 w-40 h-40 bg-[#CCFF00]/20 rounded-full blur-3xl"></div>
+            <div className="col-span-1 md:col-span-2 md:row-span-1 rounded-[3rem] bg-[#1E1E1E] p-8 flex flex-col justify-center border-4 border-black transition-all cursor-pointer group shadow-[8px_8px_0_#1DB954] hover:shadow-[12px_12px_0_#1DB954] hover:-translate-y-1 relative overflow-hidden">
+              <div className="absolute -left-10 -bottom-10 w-40 h-40 bg-[#6EF3A5]/20 rounded-full blur-3xl"></div>
               <div className="flex items-center justify-between z-10">
                 <div>
                   <h3 className="text-white font-black text-3xl tracking-tighter leading-none mb-2">Get early access</h3>
                   <p className="text-gray-400 font-medium text-sm">Join the secret club. No spam, just music.</p>
                 </div>
-                <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center group-hover:bg-[#CCFF00] transition-colors">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="group-hover:translate-x-1 transition-transform"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center group-hover:bg-[#6EF3A5] transition-colors">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                 </div>
               </div>
             </div>
@@ -420,10 +486,12 @@ function App() {
 
       {/* INFINITE CAROUSEL - ARTISTS & PLATFORMS */}
       <section className="bg-white py-32 overflow-hidden border-y-4 border-black">
-        <div className="max-w-7xl mx-auto px-6 mb-16 text-center">
-          <h2 className="text-[4rem] lg:text-[5rem] font-black leading-[0.95] tracking-tighter text-black">
-            Integrated with over 50 <br/><span className="text-[#0038FF]">music platforms.</span>
+        <div className="max-w-7xl mx-auto px-6 mb-16 text-center relative z-10">
+          <Sparkle className="w-16 h-16 text-[#FFED4A] absolute -top-8 right-4 md:right-32 rotate-[45deg]" />
+          <h2 className="text-[3rem] md:text-[4rem] lg:text-[5rem] font-black leading-[0.95] tracking-tighter text-black">
+            Integrated with over 50 <br/><span className="text-[#8E84F3]">music platforms.</span>
           </h2>
+          <AsteriskSticker className="w-12 h-12 text-[#1DB954] absolute -bottom-6 left-4 md:left-32 -rotate-[15deg] hidden md:block" />
         </div>
         
         {/* Marquee Track */}
@@ -434,14 +502,26 @@ function App() {
                 <div className="w-[300px] h-[300px] bg-black rounded-[3rem] shrink-0 flex flex-col items-center justify-center text-white cursor-pointer border-4 border-black shadow-[8px_8px_0_#111111]">
                   <span className="text-5xl font-black tracking-tighter text-[#1DB954]">Spotify</span>
                 </div>
-                <div className="w-[450px] h-[300px] bg-[#FF0050] rounded-[3rem] shrink-0 flex items-center justify-center cursor-pointer text-white border-4 border-black shadow-[8px_8px_0_#111111]">
+                <div className="w-[450px] h-[300px] bg-[#FFED4A] rounded-[3rem] shrink-0 flex items-center justify-center cursor-pointer text-white border-4 border-black shadow-[8px_8px_0_#FFED4A]">
                   <span className="text-5xl font-black tracking-tighter">TikTok</span>
                 </div>
                 <div className="w-[300px] h-[300px] rounded-[3rem] shrink-0 overflow-hidden cursor-pointer border-4 border-black shadow-[8px_8px_0_#111111] relative bg-black">
                   <img src="https://images.unsplash.com/photo-1461360228754-6e81c478b882?w=600&fit=crop" className="absolute inset-0 w-full h-full object-cover grayscale opacity-80" alt="Vinyl" />
                 </div>
-                <div className="w-[350px] h-[300px] bg-white rounded-[3rem] shrink-0 flex items-center justify-center text-black cursor-pointer border-4 border-black shadow-[8px_8px_0_#111111]">
+                <div className="w-[350px] h-[300px] bg-white rounded-[3rem] shrink-0 flex items-center justify-center text-black cursor-pointer border-4 border-black shadow-[8px_8px_0_#6EF3A5]">
                   <span className="text-5xl font-black tracking-tighter">Apple Music</span>
+                </div>
+                <div className="w-[400px] h-[300px] bg-[#FF5500] rounded-[3rem] shrink-0 flex items-center justify-center cursor-pointer text-white border-4 border-black shadow-[8px_8px_0_#111111]">
+                  <span className="text-5xl font-black tracking-tighter">SoundCloud</span>
+                </div>
+                <div className="w-[300px] h-[300px] rounded-[3rem] shrink-0 overflow-hidden cursor-pointer border-4 border-black shadow-[8px_8px_0_#8E84F3] relative bg-black">
+                  <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=600&fit=crop" className="absolute inset-0 w-full h-full object-cover grayscale opacity-80 hover:scale-110 transition-transform duration-700" alt="Concert" />
+                </div>
+                <div className="w-[350px] h-[300px] bg-[#FF0000] rounded-[3rem] shrink-0 flex items-center justify-center cursor-pointer text-white border-4 border-black shadow-[8px_8px_0_#111111]">
+                  <span className="text-5xl font-black tracking-tighter">YouTube</span>
+                </div>
+                <div className="w-[300px] h-[300px] bg-black rounded-[3rem] shrink-0 flex items-center justify-center cursor-pointer text-white border-4 border-black shadow-[8px_8px_0_#1DB954]">
+                  <span className="text-5xl font-black tracking-tighter">TIDAL</span>
                 </div>
               </div>
             ))}
@@ -452,19 +532,27 @@ function App() {
       {/* FAQ SECTION - DARK */}
       <section className="bg-[#0A0A0A] py-32 px-6 text-white pb-40">
         <div className="max-w-3xl mx-auto space-y-6">
-          <div className="text-center mb-16">
-            <h2 className="text-[4rem] font-black tracking-tighter text-[#CCFF00]">Got questions?</h2>
+          <div className="text-center mb-16 relative z-10">
+            <h2 className="text-[3rem] md:text-[4rem] font-black tracking-tighter text-[#6EF3A5]">Got questions?</h2>
+            <PillSticker className="w-20 h-10 text-[#FFED4A] absolute -top-8 right-4 md:right-16 rotate-[25deg] hidden md:block" />
           </div>
           
           {[
-            "How do I embed Spotify and Apple Music players?",
-            "Can I sell merch or digital downloads directly?",
-            "Is there a limit on how many tour dates I can add?",
-            "How do I track my pre-save conversions?"
-          ].map((q, i) => (
-            <div key={i} className="bg-[#1E1E1E] border border-white/10 rounded-3xl p-6 md:p-8 flex items-center justify-between cursor-pointer hover:border-[#CCFF00] hover:bg-[#111111] transition-all">
-              <h3 className="text-lg md:text-xl font-bold text-gray-200">{q}</h3>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00FF00" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 ml-4"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            { q: "How do I embed Spotify and Apple Music players?", a: "Just paste your track or playlist URL into the embed block. We automatically convert it into a playable widget so fans can listen without leaving your page." },
+            { q: "Can I sell merch or digital downloads directly?", a: "Yes! Our Pro plan includes e-commerce integrations to let you sell physical merch, digital tracks, and even exclusive content directly to your fans." },
+            { q: "Is there a limit on how many tour dates I can add?", a: "No limits at all. Whether it's a one-off gig or a massive world tour, you can list as many dates as you need with direct links to ticketing platforms." },
+            { q: "How do I track my pre-save conversions?", a: "We provide detailed analytics showing exactly how many clicks your pre-save links received, broken down by streaming platform and location." }
+          ].map((faq, i) => (
+            <div key={i} onClick={() => setOpenFaq(openFaq === i ? null : i)} className={`rounded-3xl p-6 md:p-8 flex flex-col cursor-pointer transition-all duration-300 border-4 ${openFaq === i ? 'bg-[#6EF3A5] border-black shadow-[8px_8px_0_#FFED4A] -translate-y-1' : 'bg-[#1E1E1E] border-transparent hover:border-[#6EF3A5]/50 hover:bg-[#252525]'}`}>
+              <div className="flex items-center justify-between">
+                <h3 className={`text-lg md:text-xl font-black tracking-tight ${openFaq === i ? 'text-black' : 'text-gray-200'}`}>{faq.q}</h3>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={openFaq === i ? '#000000' : '#6EF3A5'} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className={`shrink-0 ml-4 transition-transform duration-300 ${openFaq === i ? 'rotate-180' : ''}`}><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </div>
+              <div className={`overflow-hidden transition-all duration-300 ${openFaq === i ? 'max-h-40 mt-4 opacity-100' : 'max-h-0 opacity-0'}`}>
+                <p className={`font-bold text-base leading-relaxed pr-8 ${openFaq === i ? 'text-black/80' : 'text-gray-400'}`}>
+                  {faq.a}
+                </p>
+              </div>
             </div>
           ))}
         </div>
@@ -472,7 +560,7 @@ function App() {
 
       {/* FOOTER */}
       <footer className="bg-[#0A0A0A] px-6 pb-12 pt-10">
-        <div className="max-w-7xl mx-auto bg-white rounded-[3rem] p-10 lg:p-16 border-4 border-black shadow-[12px_12px_0_#0038FF] flex flex-col">
+        <div className="max-w-7xl mx-auto bg-white rounded-[3rem] p-10 lg:p-16 border-4 border-black shadow-[12px_12px_0_#FFED4A] flex flex-col">
           
           {/* Top Links Grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
@@ -525,36 +613,46 @@ function App() {
           </div>
 
           {/* Bottom Actions Row */}
-          <div className="flex flex-col xl:flex-row items-center justify-between gap-8 mt-auto pt-8">
+          <div className="flex flex-col xl:flex-row items-center justify-between gap-8 mt-auto pt-8 relative z-10">
+            <SmileNeo className="w-16 h-16 text-[#6EF3A5] absolute -top-10 left-1/2 -translate-x-1/2 xl:left-[45%] rotate-[-15deg]" />
             {/* CTA Buttons */}
             <div className="flex items-center gap-4 w-full xl:w-auto justify-center xl:justify-start">
               <button className="bg-gray-100 text-black px-8 py-4 rounded-full font-black text-lg hover:bg-gray-200 transition-colors">Log in</button>
-              <button className="bg-[#CCFF00] text-black px-8 py-4 rounded-full font-black text-lg border-4 border-black shadow-[4px_4px_0_#111111] hover:-translate-y-1 hover:shadow-[6px_6px_0_#111111] transition-all">Get started for free</button>
+              <button className="bg-[#6EF3A5] text-black px-8 py-4 rounded-full font-black text-lg border-4 border-black shadow-[4px_4px_0_#111111] hover:-translate-y-1 hover:shadow-[6px_6px_0_#111111] transition-all">Get started for free</button>
             </div>
             
             {/* Social & Stores */}
             <div className="flex items-center gap-3 flex-wrap justify-center xl:justify-end">
               {/* App Stores */}
               <button className="bg-black text-white px-5 py-3 rounded-full font-bold text-xs flex items-center gap-2 hover:scale-105 transition-transform">
-                <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.04 2.26-.8 3.59-.8 1.58.05 2.81.7 3.56 1.81-1.32.78-1.57 2.44-.31 3.25-.65 1.76-1.55 3.32-2.92 4.91zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.689.827-1.33 2.272-1.144 3.61 1.35.105 2.61-.636 3.431-1.598z"/></svg>
                 <div className="flex flex-col text-left"><span className="text-[9px] leading-tight text-gray-300">Download on the</span><span className="text-sm leading-tight">App Store</span></div>
               </button>
               <button className="bg-black text-white px-5 py-3 rounded-full font-bold text-xs flex items-center gap-2 hover:scale-105 transition-transform">
-                <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 text-[#1DB954]"><path d="M3.609 1.814L13.792 12 3.61 22.186a1.986 1.986 0 01-.58-.87L3 20.211V3.789c0-.447.164-.847.435-1.186l.174-.789zm11.233 11.233L19.46 15.7a1.933 1.933 0 010 1.673l-4.618 2.653-3.666-3.666zm.943-.943L12.119 8.44l4.618-2.652a1.933 1.933 0 012.723.98l1.455 2.544c.264.462.264 1.026 0 1.488L19.46 13.34zM11.176 9.382L4.545 2.75a1.983 1.983 0 011.644.02l4.987 2.865v3.747z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 text-[#1DB954]"><path d="M22.094 10.518L2.73 1.102A1.85 1.85 0 0 0 .003 2.76v18.47a1.85 1.85 0 0 0 2.738 1.666l19.344-9.416a1.851 1.851 0 0 0 .01-3.327L22.094 10.518z"/></svg>
                 <div className="flex flex-col text-left"><span className="text-[9px] leading-tight text-gray-300">GET IT ON</span><span className="text-sm leading-tight">Google Play</span></div>
               </button>
               
               {/* Social Icons */}
               <div className="flex gap-2 ml-2">
-                {[
-                  <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/>,
-                  <><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></>,
-                  <path d="M22 4.01c-1 .49-2.13.82-3.32.96 1.2-.72 2.12-1.86 2.56-3.22-1.08.64-2.28 1.1-3.56 1.35C16.66 2.02 15.26 1.3 13.72 1.3 10.76 1.3 8.36 3.7 8.36 6.66c0 .42.05.83.14 1.22C4.08 7.66 2.17 5.56 1.04 3.16c-.46.79-.72 1.71-.72 2.68 0 1.86.95 3.5 2.39 4.46-.92-.03-1.78-.28-2.54-.7v.07c0 2.72 1.93 4.98 4.5 5.5-.45.12-.92.18-1.41.18-.34 0-.68-.03-1.01-.09.71 2.23 2.79 3.85 5.24 3.89-1.92 1.5-4.34 2.4-6.97 2.4-.43 0-.86-.03-1.28-.08 2.48 1.59 5.43 2.52 8.59 2.52 10.3 0 15.93-8.53 15.93-15.93 0-.24-.01-.48-.02-.72 1.09-.79 2.04-1.78 2.79-2.9z"/>
-                ].map((path, i) => (
-                  <div key={i} className="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center hover:scale-110 transition-transform cursor-pointer">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">{path}</svg>
-                  </div>
-                ))}
+                {/* Facebook */}
+                <div className="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center hover:scale-110 transition-transform cursor-pointer">
+                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                    <path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4v-8.5z"/>
+                  </svg>
+                </div>
+                {/* Instagram */}
+                <div className="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center hover:scale-110 transition-transform cursor-pointer">
+                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                  </svg>
+                </div>
+                {/* Twitter / X */}
+                <div className="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center hover:scale-110 transition-transform cursor-pointer">
+                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                  </svg>
+                </div>
               </div>
             </div>
           </div>
