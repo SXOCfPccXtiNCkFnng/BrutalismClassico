@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-background: #FFFFFF;
+  --color-primary: #000000;
+  --color-accent: #C9082A; /* NBA Red */
+  --color-secondary: #17408B; /* NBA Blue */
+  --color-card: #F9FAFB;
+  --font-sans: "Inter", sans-serif;
+  --radius-4xl: 2rem;
+  --radius-pill: 9999px;
+  
+  --animate-spin-slow: spin 3s linear infinite;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+@utility bento-card {
+  background-color: var(--color-background);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  transition-property: transform, box-shadow;
+  transition-duration: 300ms;
+  border: 1px solid #e5e7eb;
+  
+  &:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  }
+}
