@@ -99,25 +99,29 @@ function App() {
               <div className="flex flex-row animate-marquee w-max h-full pointer-events-auto" style={{ animationDuration: '20s' }}>
                 {[...Array(2)].map((_, index) => (
                   <div key={index} className="flex flex-row gap-4 md:gap-8 pr-4 md:pr-8 shrink-0">
-                    {/* Item 1 */}
-                    <div className="w-[250px] md:w-[350px] aspect-[4/5] bg-[#111111] rounded-[3rem] overflow-hidden shadow-2xl">
-                      <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&fit=crop" className="w-full h-full object-cover" />
+                    {/* Item 1 - DJ Purple */}
+                    <div className="w-[280px] md:w-[360px] aspect-square bg-[#111111] rounded-2xl overflow-hidden shadow-2xl">
+                      <img src="/imgs/dj.png" className="w-full h-full object-cover" />
                     </div>
-                    {/* Item 2 */}
-                    <div className="w-[250px] md:w-[350px] aspect-[4/5] bg-[#111111] rounded-[3rem] overflow-hidden shadow-2xl">
-                      <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&fit=crop" className="w-full h-full object-cover" />
+                    {/* Item 2 - Guitar Pink/Orange */}
+                    <div className="w-[280px] md:w-[360px] aspect-square bg-[#111111] rounded-2xl overflow-hidden shadow-2xl">
+                      <img src="/imgs/guitar.png" className="w-full h-full object-cover" />
                     </div>
-                    {/* Item 3 */}
-                    <div className="w-[250px] md:w-[350px] aspect-[4/5] bg-[#111111] rounded-[3rem] overflow-hidden shadow-2xl">
-                      <img src="https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800&fit=crop" className="w-full h-full object-cover" />
+                    {/* Item 3 - Crowd Green */}
+                    <div className="w-[280px] md:w-[360px] aspect-square bg-[#111111] rounded-2xl overflow-hidden shadow-2xl">
+                      <img src="/imgs/crowd.png" className="w-full h-full object-cover" />
                     </div>
-                    {/* Item 4 */}
-                    <div className="w-[250px] md:w-[350px] aspect-[4/5] bg-[#111111] rounded-[3rem] overflow-hidden shadow-2xl">
-                      <img src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=800&fit=crop" className="w-full h-full object-cover" />
+                    {/* Item 4 - Raw Sound Cyan */}
+                    <div className="w-[280px] md:w-[360px] aspect-square bg-[#111111] rounded-2xl overflow-hidden shadow-2xl">
+                      <img src="/imgs/wave.png" className="w-full h-full object-cover" />
                     </div>
-                    {/* Item 5 */}
-                    <div className="w-[250px] md:w-[350px] aspect-[4/5] bg-[#111111] rounded-[3rem] overflow-hidden shadow-2xl">
-                      <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&fit=crop" className="w-full h-full object-cover" />
+                    {/* Item 5 - Drop The Mic Red */}
+                    <div className="w-[280px] md:w-[360px] aspect-square bg-[#111111] rounded-2xl overflow-hidden shadow-2xl">
+                      <img src="/imgs/mic.png" className="w-full h-full object-cover" />
+                    </div>
+                    {/* Item 6 - Vinyl Yellow */}
+                    <div className="w-[280px] md:w-[360px] aspect-square bg-[#111111] rounded-2xl overflow-hidden shadow-2xl">
+                      <img src="/imgs/vinyl.png" className="w-full h-full object-cover" />
                     </div>
                   </div>
                 ))}
@@ -133,25 +137,29 @@ function App() {
               <div className="flex flex-col animate-marquee-vertical w-full h-fit pointer-events-auto" style={{ animationDuration: '20s' }}>
                 {[...Array(2)].map((_, index) => (
                   <div key={index} className="flex flex-col gap-8 pb-8 shrink-0">
-                    {/* Item 1 */}
-                    <div className="w-full aspect-[4/5] bg-[#111111] rounded-[3rem] overflow-hidden shadow-2xl">
-                      <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&fit=crop" className="w-full h-full object-cover" />
+                    {/* Item 1 - DJ Purple */}
+                    <div className="w-full aspect-square bg-[#111111] rounded-2xl overflow-hidden shadow-2xl">
+                      <img src="/imgs/dj.png" className="w-full h-full object-cover" />
                     </div>
-                    {/* Item 2 */}
-                    <div className="w-full aspect-[4/5] bg-[#111111] rounded-[3rem] overflow-hidden shadow-2xl">
-                      <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&fit=crop" className="w-full h-full object-cover" />
+                    {/* Item 2 - Guitar Pink/Orange */}
+                    <div className="w-full aspect-square bg-[#111111] rounded-2xl overflow-hidden shadow-2xl">
+                      <img src="/imgs/guitar.png" className="w-full h-full object-cover" />
                     </div>
-                    {/* Item 3 */}
-                    <div className="w-full aspect-[4/5] bg-[#111111] rounded-[3rem] overflow-hidden shadow-2xl">
-                      <img src="https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800&fit=crop" className="w-full h-full object-cover" />
+                    {/* Item 3 - Crowd Green */}
+                    <div className="w-full aspect-square bg-[#111111] rounded-2xl overflow-hidden shadow-2xl">
+                      <img src="/imgs/crowd.png" className="w-full h-full object-cover" />
                     </div>
-                    {/* Item 4 */}
-                    <div className="w-full aspect-[4/5] bg-[#111111] rounded-[3rem] overflow-hidden shadow-2xl">
-                      <img src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=800&fit=crop" className="w-full h-full object-cover" />
+                    {/* Item 4 - Raw Sound Cyan */}
+                    <div className="w-full aspect-square bg-[#111111] rounded-2xl overflow-hidden shadow-2xl">
+                      <img src="/imgs/wave.png" className="w-full h-full object-cover" />
                     </div>
-                    {/* Item 5 */}
-                    <div className="w-full aspect-[4/5] bg-[#111111] rounded-[3rem] overflow-hidden shadow-2xl">
-                      <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&fit=crop" className="w-full h-full object-cover" />
+                    {/* Item 5 - Drop The Mic Red */}
+                    <div className="w-full aspect-square bg-[#111111] rounded-2xl overflow-hidden shadow-2xl">
+                      <img src="/imgs/mic.png" className="w-full h-full object-cover" />
+                    </div>
+                    {/* Item 6 - Vinyl Yellow */}
+                    <div className="w-full aspect-square bg-[#111111] rounded-2xl overflow-hidden shadow-2xl">
+                      <img src="/imgs/vinyl.png" className="w-full h-full object-cover" />
                     </div>
                   </div>
                 ))}
