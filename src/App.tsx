@@ -144,7 +144,7 @@ function App() {
           </div>
           
           {/* Mobile Horizontal Marquee (Tablet/Mobile) */}
-          <div className="w-[calc(100%+3rem)] -ml-6 relative h-[400px] lg:hidden flex items-center overflow-hidden mt-10">
+          <div className="w-[calc(100%+3rem)] -ml-6 relative h-[280px] md:h-[360px] lg:hidden flex items-center overflow-hidden mt-6">
             <div className="absolute left-0 w-max flex pointer-events-none">
               <div className="flex flex-row animate-marquee w-max h-full pointer-events-auto" style={{ animationDuration: '20s' }}>
                 {[...Array(2)].map((_, index) => (
@@ -551,7 +551,7 @@ function App() {
                 <img src="/imgs/guitar.png" className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700" alt="Guitar" />
                 <div className="absolute inset-0 bg-gradient-to-b from-[#FFED4A]/90 via-[#FFED4A]/20 to-[#FFED4A]"></div>
                 
-                <div className="relative z-10 flex flex-col h-full justify-between">
+                <div className="relative z-10 flex flex-col h-full justify-between gap-8">
                   <div>
                     <h3 className="text-black font-black text-6xl lg:text-7xl leading-[0.8] tracking-tighter uppercase drop-shadow-md">
                       Tour<br/>
