@@ -2,11 +2,19 @@
 @import "tailwindcss";
 
 @theme {
-  --color-background: #8E84F3;
-  --color-primary: #000000;
-  --color-accent: #FFED4A;
-  --color-secondary: #6EF3A5;
-  --color-card: #FFFFFF;
+  --color-brand-purple: var(--brand-purple);
+  --color-brand-yellow: var(--brand-yellow);
+  --color-brand-green: var(--brand-green);
+  --color-brand-pink: var(--brand-pink);
+  --color-brand-darkred: var(--brand-darkred);
+  --color-brand-cyan: var(--brand-cyan);
+  --color-brand-black: var(--brand-black);
+  --color-brand-white: var(--brand-white);
+  --color-brand-gray: var(--brand-gray);
+  --color-brand-spotify: var(--brand-spotify);
+  --color-brand-muted: var(--brand-muted);
+  --color-brand-surface: var(--brand-surface);
+
   --font-sans: "Inter", sans-serif;
   --radius-4xl: 2rem;
   --radius-pill: 9999px;
@@ -14,9 +22,42 @@
   --animate-spin-slow: spin 3s linear infinite;
 }
 
+@layer base {
+  :root {
+    --brand-purple: #8E84F3;
+    --brand-yellow: #FFED4A;
+    --brand-green: #6EF3A5;
+    --brand-pink: #FF2D78;
+    --brand-darkred: #5C1425;
+    --brand-cyan: #00E5FF;
+    --brand-black: #111111;
+    --brand-white: #FFFFFF;
+    --brand-gray: #F4F4F4;
+    --brand-spotify: #1DB954;
+    --brand-muted: #6B7280; /* gray-500 */
+    --brand-surface: #F3F4F6; /* gray-100 */
+  }
+
+  [data-theme="inverted"] {
+    /* Inverted palette: swap contrasting colors for a chaotic brutalist flip */
+    --brand-purple: #FFED4A;   
+    --brand-yellow: #8E84F3;   
+    --brand-green: #FF2D78;    
+    --brand-pink: #6EF3A5;     
+    --brand-darkred: #00E5FF;  
+    --brand-cyan: #5C1425;     
+    --brand-black: #F4F4F4;    
+    --brand-white: #111111;
+    --brand-gray: #111111;
+    --brand-spotify: #FF2D78;
+    --brand-muted: #9CA3AF;
+    --brand-surface: #1F2937;
+  }
+}
+
 body {
-  background-color: var(--color-background);
-  color: var(--color-primary);
+  background-color: var(--brand-black);
+  color: var(--brand-white);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
@@ -28,19 +69,4 @@ img {
   -o-user-drag: none;
   user-drag: none;
   user-select: none;
-}
-
-@utility bento-card {
-  background-color: var(--color-background);
-  border-radius: 1.5rem;
-  padding: 2rem;
-  box-shadow: 6px 6px 0px 0px rgba(0,0,0,1);
-  transition-property: transform, box-shadow;
-  transition-duration: 300ms;
-  border: 3px solid #000000;
-  
-  &:hover {
-    transform: translate(-4px, -4px);
-    box-shadow: 10px 10px 0px 0px rgba(0,0,0,1);
-  }
 }
