@@ -47,7 +47,7 @@ export const Footer = () => {
         <div className="w-full h-1 bg-brand-black mb-8"></div>
 
         <div className="flex flex-col md:flex-row justify-between items-center gap-6 font-bold text-brand-muted">
-           <span>© 2024 BeatLink. No rights reserved. Go crazy.</span>
+           <span>© 2026 BeatLink. No rights reserved. Go crazy.</span>
            <div className="flex gap-4">
              {/* Social Links... */}
              <a href="#" className="w-12 h-12 rounded-full border-2 border-brand-black bg-brand-white flex items-center justify-center hover:bg-brand-yellow hover:scale-110 transition-all text-brand-black shadow-[4px_4px_0_var(--brand-black)]">X</a>
