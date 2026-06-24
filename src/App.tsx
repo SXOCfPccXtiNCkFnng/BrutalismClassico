@@ -230,12 +230,12 @@ function App() {
               Connect your fans to your latest singles, tour dates, merch drops, and Spotify playlists. BeatLink is the ultimate bio hub for modern musicians.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 w-full max-w-xl pt-4">
-              <div className="flex items-center bg-white rounded-2xl h-16 flex-1 px-6 border-4 border-black shadow-[8px_8px_0_#FFED4A] focus-within:-translate-y-1 focus-within:shadow-[12px_12px_0_#FFED4A] transition-all">
-                <span className="font-bold text-gray-400 text-lg">beat.lk/</span>
-                <input type="text" placeholder="yourname" className="bg-transparent border-none outline-none w-full font-bold text-black h-full placeholder:text-gray-300 text-lg ml-1" />
+            <div className="flex flex-col sm:flex-row gap-6 w-full max-w-xl pt-4">
+              <div className="w-full sm:flex-1 flex items-center bg-white rounded-2xl h-16 md:h-20 px-6 border-4 border-black shadow-[8px_8px_0_#FFED4A] focus-within:-translate-y-1 focus-within:shadow-[12px_12px_0_#FFED4A] transition-all">
+                <span className="font-bold text-gray-400 text-lg md:text-xl">beat.lk/</span>
+                <input type="text" placeholder="yourname" className="bg-transparent border-none outline-none w-full font-bold text-black h-full placeholder:text-gray-300 text-lg md:text-xl ml-1" />
               </div>
-              <button className="bg-[#FFED4A] text-black h-16 px-8 rounded-full font-black text-lg border-4 border-black shadow-[8px_8px_0_#111111] hover:-translate-y-1 hover:shadow-[12px_12px_0_#111111] transition-all whitespace-nowrap">
+              <button className="w-full sm:w-auto bg-[#FFED4A] text-black h-16 md:h-20 px-8 rounded-full font-black text-lg md:text-xl border-4 border-black shadow-[8px_8px_0_#111111] hover:-translate-y-1 hover:shadow-[12px_12px_0_#111111] transition-all whitespace-nowrap">
                 Claim your link
               </button>
             </div>
