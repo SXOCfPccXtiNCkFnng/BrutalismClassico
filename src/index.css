@@ -21,6 +21,15 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+img {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+  user-select: none;
+}
+
 @utility bento-card {
   background-color: var(--color-background);
   border-radius: 1.5rem;

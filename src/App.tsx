@@ -52,13 +52,11 @@ const CarouselCard = ({ item }: { item: typeof carouselItems[0] }) => {
   );
 }
 
-// Custom Hook for Draggable Auto-Scroll
 function useDraggableScroll(direction: 'horizontal' | 'vertical' | 'none' = 'none', autoSpeed = 1) {
   const ref = useRef<HTMLDivElement>(null);
   const isDown = useRef(false);
   const startPos = useRef(0);
   const scrollPos = useRef(0);
-  const isHovered = useRef(false);
 
   useEffect(() => {
     if (direction === 'none' || autoSpeed === 0) return;
@@ -67,7 +65,7 @@ function useDraggableScroll(direction: 'horizontal' | 'vertical' | 'none' = 'non
     let animationId: number;
 
     const scroll = () => {
-      if (!isDown.current && !isHovered.current && el) {
+      if (!isDown.current && el) {
         if (direction === 'horizontal') {
           el.scrollLeft += autoSpeed;
           if (el.scrollLeft >= el.scrollWidth / 2) {
@@ -86,52 +84,47 @@ function useDraggableScroll(direction: 'horizontal' | 'vertical' | 'none' = 'non
     return () => cancelAnimationFrame(animationId);
   }, [direction, autoSpeed]);
 
-  const onMouseDown = useCallback((e: React.MouseEvent) => {
+  const onDragStart = useCallback((pageX: number, pageY: number) => {
     if (!ref.current) return;
     isDown.current = true;
     if (direction === 'horizontal') {
-      startPos.current = e.pageX - ref.current.offsetLeft;
+      startPos.current = pageX - ref.current.offsetLeft;
       scrollPos.current = ref.current.scrollLeft;
     } else {
-      startPos.current = e.pageY - ref.current.offsetTop;
+      startPos.current = pageY - ref.current.offsetTop;
       scrollPos.current = ref.current.scrollTop;
     }
   }, [direction]);
 
-  const onMouseLeave = useCallback(() => {
-    isDown.current = false;
-    isHovered.current = false;
-  }, []);
-
-  const onMouseUp = useCallback(() => {
-    isDown.current = false;
-  }, []);
-
-  const onMouseMove = useCallback((e: React.MouseEvent) => {
+  const onDragMove = useCallback((pageX: number, pageY: number) => {
     if (!isDown.current || !ref.current) return;
-    e.preventDefault();
     if (direction === 'horizontal') {
-      const x = e.pageX - ref.current.offsetLeft;
+      const x = pageX - ref.current.offsetLeft;
       const walk = (x - startPos.current) * 2;
       ref.current.scrollLeft = scrollPos.current - walk;
     } else {
-      const y = e.pageY - ref.current.offsetTop;
+      const y = pageY - ref.current.offsetTop;
       const walk = (y - startPos.current) * 2;
       ref.current.scrollTop = scrollPos.current - walk;
     }
   }, [direction]);
 
-  const onMouseEnter = useCallback(() => {
-    isHovered.current = true;
+  const onDragEnd = useCallback(() => {
+    isDown.current = false;
   }, []);
 
   return { 
     ref, 
-    onMouseDown, 
-    onMouseLeave, 
-    onMouseUp, 
-    onMouseMove,
-    onMouseEnter
+    onMouseDown: (e: React.MouseEvent) => onDragStart(e.pageX, e.pageY), 
+    onMouseLeave: onDragEnd, 
+    onMouseUp: onDragEnd, 
+    onMouseMove: (e: React.MouseEvent) => {
+      if (isDown.current) e.preventDefault();
+      onDragMove(e.pageX, e.pageY);
+    },
+    onTouchStart: (e: React.TouchEvent) => onDragStart(e.touches[0].pageX, e.touches[0].pageY),
+    onTouchEnd: onDragEnd,
+    onTouchMove: (e: React.TouchEvent) => onDragMove(e.touches[0].pageX, e.touches[0].pageY)
   };
 }
 
@@ -160,7 +153,7 @@ function App() {
   }, [lastScrollY]);
 
   return (
-    <div className="font-sans selection:bg-[#111111] selection:text-[#6EF3A5] bg-[#111111]">
+    <div className="font-sans selection:bg-[#111111] selection:text-[#6EF3A5] bg-[#111111] overflow-x-hidden w-full max-w-[100vw]">
       <style>
         {`
           @keyframes marquee {
@@ -213,22 +206,22 @@ function App() {
       </nav>
 
       {/* HERO SECTION - VIBRANT ORANGE */}
-      <section className="bg-[#8E84F3] pt-40 pb-20 min-h-[100vh] flex flex-col justify-center overflow-hidden relative border-b-4 border-black">
+      <section className="bg-[#8E84F3] pt-40 pb-20 min-h-[100vh] flex flex-col justify-center overflow-hidden relative border-b-[8px] border-[#FFED4A]">
         {/* Background Giant Shapes */}
         <CircleSticker className="w-[600px] h-[600px] text-white opacity-10 absolute -top-40 -left-40 z-0 pointer-events-none hidden md:block" />
-        <CrossSticker className="w-[400px] h-[400px] text-[#FFED4A] opacity-10 absolute -bottom-20 -right-20 rotate-45 z-0 pointer-events-none" />
+        <CrossSticker className="w-[200px] h-[200px] md:w-[400px] md:h-[400px] text-[#FFED4A] opacity-10 absolute -bottom-10 md:-bottom-20 -right-10 md:-right-20 rotate-45 z-0 pointer-events-none hidden md:block" />
         
         {/* Medium / Small Scatter */}
         <ZigZag className="w-32 h-16 text-[#FFED4A] absolute bottom-12 right-12 md:right-32 rotate-12 z-0 hidden lg:block" />
         <SpringNeo className="w-24 h-24 text-[#6EF3A5] absolute top-32 right-1/4 -rotate-12 z-0 hidden md:block opacity-80" />
-        <PillSticker className="w-16 h-8 text-white absolute top-1/2 left-8 md:left-12 rotate-[45deg] z-0" />
-        <Sparkle className="w-8 h-8 text-[#FFED4A] absolute top-20 left-1/3 animate-spin-slow z-0" />
-        <Sparkle className="w-6 h-6 text-white absolute bottom-40 left-1/4 rotate-45 z-0" />
+        <PillSticker className="w-16 h-8 text-white absolute top-1/2 left-8 md:left-12 rotate-[45deg] z-0 hidden md:block" />
+        <Sparkle className="w-8 h-8 text-[#FFED4A] absolute top-20 left-1/3 animate-spin-slow z-0 hidden md:block" />
+        <Sparkle className="w-6 h-6 text-white absolute bottom-40 left-1/4 rotate-45 z-0 hidden md:block" />
         
         <div className="max-w-7xl mx-auto w-full flex flex-col lg:flex-row items-center gap-16 relative z-10">
           
           <div className="flex-1 space-y-8 max-w-2xl py-10 px-6 lg:px-8">
-            <h1 className="text-[3.5rem] md:text-[5rem] lg:text-[6rem] font-black leading-[0.9] tracking-tighter text-[#F4F4F4] relative">
+            <h1 className="text-[3rem] sm:text-[3.5rem] md:text-[5rem] lg:text-[6rem] font-black leading-[0.9] tracking-tighter text-[#F4F4F4] relative">
               <Sparkle className="w-16 h-16 text-[#FFED4A] absolute -top-12 -left-6 md:-left-10 rotate-12" />
               One link to drop your next track.
               <AsteriskSticker className="w-12 h-12 text-[#6EF3A5] absolute -bottom-4 right-0 md:-right-8 -rotate-12" />
@@ -334,14 +327,14 @@ function App() {
 
 
       {/* CREATE AND CUSTOMIZE - DEEP PURPLE */}
-      <section className="bg-[#5C1425] py-32 px-6 overflow-hidden border-b-4 border-black relative">
-        <CircleSticker className="w-20 h-20 text-[#6EF3A5] absolute top-10 left-10 md:left-20 rotate-12 z-0" />
-        <AsteriskSticker className="w-16 h-16 text-[#FFED4A] absolute bottom-10 right-10 md:right-32 animate-spin-slow z-0" />
+      <section className="bg-[#5C1425] py-32 px-6 overflow-hidden border-b-[8px] border-[#6EF3A5] relative">
+        <CircleSticker className="w-20 h-20 text-[#6EF3A5] absolute top-10 left-10 md:left-20 rotate-12 z-0 hidden md:block" />
+        <AsteriskSticker className="w-16 h-16 text-[#FFED4A] absolute bottom-10 right-10 md:right-32 animate-spin-slow z-0 hidden md:block" />
         
         {/* Variations */}
-        <SpringNeo className="w-[300px] h-[300px] text-[#8E84F3] opacity-20 absolute top-1/2 -left-20 rotate-[120deg] pointer-events-none" />
+        <SpringNeo className="w-[150px] h-[150px] md:w-[300px] md:h-[300px] text-[#8E84F3] opacity-20 absolute top-1/2 -left-10 md:-left-20 rotate-[120deg] pointer-events-none hidden md:block" />
         <ArrowNeo className="w-12 h-12 text-[#FF2D78] absolute top-40 right-10 lg:right-1/4 rotate-[-15deg] hidden md:block" />
-        <Sparkle className="w-10 h-10 text-white absolute bottom-1/4 left-1/3 animate-spin-slow opacity-50" />
+        <Sparkle className="w-10 h-10 text-white absolute bottom-1/4 left-1/3 animate-spin-slow opacity-50 hidden md:block" />
         
         <div className="max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center gap-16">
           <div className="flex-1 relative w-full h-[600px] flex items-center justify-center perspective-1000">
@@ -436,7 +429,7 @@ function App() {
       </section>
 
       {/* INFINITE CAROUSEL - ARTISTS & PLATFORMS */}
-      <section className="bg-white py-32 overflow-hidden border-b-4 border-black">
+      <section className="bg-white py-32 overflow-hidden border-b-[8px] border-[#FF2D78]">
         <div className="max-w-7xl mx-auto px-6 mb-16 text-center relative z-10">
           <Sparkle className="w-16 h-16 text-[#FFED4A] absolute -top-8 right-4 md:right-32 rotate-[45deg]" />
           <h2 className="text-[3rem] md:text-[4rem] lg:text-[5rem] font-black leading-[0.95] tracking-tighter text-black">
@@ -460,15 +453,15 @@ function App() {
       </section>
 
       {/* STATS SECTION - BENTO GRID CYAN */}
-      <section className="bg-[#00E5FF] py-32 px-6 border-b-4 border-black relative overflow-hidden">
+      <section className="bg-[#00E5FF] py-32 px-6 border-b-[8px] border-[#8E84F3] relative overflow-hidden">
         <SmileNeo className="w-24 h-24 text-[#8E84F3] absolute bottom-12 left-12 rotate-[-15deg] hidden md:block" />
         <CrossSticker className="w-16 h-16 text-[#FFED4A] absolute top-20 right-12 rotate-[25deg] hidden lg:block" />
-        <AsteriskSticker className="w-10 h-10 text-white absolute bottom-1/3 left-1/4 rotate-180" />
-        <CircleSticker className="w-12 h-12 text-[#8E84F3] absolute top-10 left-1/3" />
+        <AsteriskSticker className="w-10 h-10 text-white absolute bottom-1/3 left-1/4 rotate-180 hidden md:block" />
+        <CircleSticker className="w-12 h-12 text-[#8E84F3] absolute top-10 left-1/3 hidden md:block" />
         
         {/* Size Variations */}
-        <ZigZag className="w-[500px] h-[200px] text-[#6EF3A5] opacity-20 absolute -top-10 -left-20 rotate-[-10deg] pointer-events-none" />
-        <AsteriskSticker className="w-8 h-8 text-[#FF2D78] absolute top-1/2 right-4 md:right-20 rotate-45" />
+        <ZigZag className="w-[250px] h-[100px] md:w-[500px] md:h-[200px] text-[#6EF3A5] opacity-20 absolute -top-5 md:-top-10 -left-10 md:-left-20 rotate-[-10deg] pointer-events-none hidden md:block" />
+        <AsteriskSticker className="w-8 h-8 text-[#FF2D78] absolute top-1/2 right-4 md:right-20 rotate-45 hidden md:block" />
         <PillSticker className="w-[800px] h-[400px] text-white opacity-10 absolute bottom-[-200px] right-[-200px] rotate-[-45deg] pointer-events-none hidden md:block" />
         
         <div className="max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center gap-20 relative z-10">
@@ -537,7 +530,7 @@ function App() {
       </section>
 
       {/* SHARE ANYWHERE - PURE BLACK & NEON */}
-      <section className="bg-[#FFED4A] py-32 px-6 overflow-hidden border-b-4 border-black">
+      <section className="bg-[#FFED4A] py-32 px-6 overflow-hidden border-b-[8px] border-[#1DB954]">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16">
           <div className="flex-1 space-y-6">
             <h1 className="text-[3rem] md:text-[6rem] lg:text-[7rem] leading-[0.85] font-black text-black mb-8 tracking-tighter uppercase relative z-10">
@@ -597,7 +590,7 @@ function App() {
       </section>
 
       {/* THE ULTIMATE BENTO GRID SECTION */}
-      <section className="bg-[#6EF3A5] py-32 px-6 overflow-hidden border-b-4 border-black">
+      <section className="bg-[#6EF3A5] py-32 px-6 overflow-hidden border-b-[8px] border-black">
         <div className="max-w-7xl mx-auto space-y-16">
           <div className="text-center max-w-3xl mx-auto relative z-10">
             <CrossSticker className="w-16 h-16 text-[#FFED4A] absolute -top-8 -left-4 md:-top-10 md:-left-12 rotate-12" />
@@ -717,14 +710,14 @@ function App() {
       </section>
 
       {/* FAQ SECTION - DARK */}
-      <section className="bg-[#111111] py-32 px-6 border-b-4 border-black relative overflow-hidden">
+      <section className="bg-[#111111] py-32 px-6 relative overflow-hidden">
         {/* Background graphic elements */}
         <AsteriskSticker className="w-[800px] h-[800px] text-[#222222] absolute -top-1/4 -right-1/4 rotate-45 pointer-events-none z-0 hidden lg:block" />
-        <CircleSticker className="w-[400px] h-[400px] text-[#222222] absolute bottom-10 -left-20 pointer-events-none z-0" />
+        <CircleSticker className="w-[200px] h-[200px] md:w-[400px] md:h-[400px] text-[#222222] absolute bottom-10 -left-10 md:-left-20 pointer-events-none z-0 hidden md:block" />
         
         <SmileNeo className="w-16 h-16 text-[#FFED4A] absolute top-12 left-12 md:left-32 rotate-[-20deg] z-0 hidden lg:block" />
-        <SpringNeo className="w-20 h-20 text-[#6EF3A5] absolute bottom-32 right-12 lg:right-32 rotate-[40deg] z-0 opacity-70" />
-        <Sparkle className="w-10 h-10 text-[#FF2D78] absolute top-1/3 right-8 md:right-1/4 z-0 animate-spin-slow" />
+        <SpringNeo className="w-20 h-20 text-[#6EF3A5] absolute bottom-32 right-12 lg:right-32 rotate-[40deg] z-0 opacity-70 hidden md:block" />
+        <Sparkle className="w-10 h-10 text-[#FF2D78] absolute top-1/3 right-8 md:right-1/4 z-0 animate-spin-slow hidden md:block" />
         
         <div className="max-w-3xl mx-auto space-y-6 relative z-10">
           <div className="text-center mb-16 relative z-10">
@@ -763,9 +756,9 @@ function App() {
         <SpringNeo className="w-32 h-32 text-[#FF2D78] absolute bottom-20 right-12 rotate-[35deg] z-0 opacity-80 hidden lg:block" />
         
         {/* More scattered elements */}
-        <CrossSticker className="w-[600px] h-[600px] text-[#222222] absolute -top-40 -right-40 rotate-[15deg] z-0 pointer-events-none" />
+        <CrossSticker className="w-[300px] h-[300px] md:w-[600px] md:h-[600px] text-[#222222] absolute -top-20 md:-top-40 -right-20 md:-right-40 rotate-[15deg] z-0 pointer-events-none hidden md:block" />
         <AsteriskSticker className="w-12 h-12 text-[#6EF3A5] absolute top-40 right-1/4 z-0 animate-spin-slow hidden xl:block" />
-        <Sparkle className="w-8 h-8 text-white absolute bottom-1/3 left-10 rotate-45 z-0" />
+        <Sparkle className="w-8 h-8 text-white absolute bottom-1/3 left-10 rotate-45 z-0 hidden md:block" />
         
         <div className="max-w-7xl mx-auto w-full relative z-10 bg-white rounded-[3rem] p-10 lg:p-16 border-4 border-black shadow-[12px_12px_0_#FFED4A] flex flex-col">
           
