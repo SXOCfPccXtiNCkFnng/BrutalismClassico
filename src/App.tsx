@@ -18,7 +18,7 @@ const CarouselCard = ({ item }: { item: typeof carouselItems[0] }) => {
 
   return (
     <div 
-      className="w-[400px] h-[400px] shrink-0 cursor-pointer perspective-[1000px] mx-4" 
+      className="w-[280px] h-[280px] md:w-[400px] md:h-[400px] shrink-0 cursor-pointer perspective-[1000px] mx-2 md:mx-4" 
       onClick={() => setIsFlipped(!isFlipped)}
     >
       <div 
@@ -97,7 +97,7 @@ function App() {
       </style>
 
       {/* NAVBAR PILL */}
-      <nav className={`fixed top-0 w-full z-50 px-6 pt-8 transition-transform duration-300 ${isNavVisible ? 'translate-y-0' : '-translate-y-full'}`}>
+      <nav className={`fixed top-0 w-full z-50 px-6 pt-8 transition-transform duration-300 ${isNavVisible ? 'translate-y-0' : '-translate-y-48'}`}>
         <div className="max-w-7xl mx-auto bg-white rounded-full h-20 flex items-center justify-between px-4 md:px-8 border-4 border-black shadow-[8px_8px_0_#111111]">
           <div className="flex items-center gap-8 xl:gap-12">
             <span className="text-2xl md:text-3xl font-black tracking-tight text-black flex items-center gap-1">
@@ -119,10 +119,10 @@ function App() {
       </nav>
 
       {/* HERO SECTION - VIBRANT ORANGE */}
-      <section className="bg-[#8E84F3] pt-40 pb-20 px-6 min-h-[100vh] flex flex-col justify-center overflow-hidden relative">
+      <section className="bg-[#8E84F3] pt-40 pb-20 min-h-[100vh] flex flex-col justify-center overflow-hidden relative border-b-4 border-black">
         <div className="max-w-7xl mx-auto w-full flex flex-col lg:flex-row items-center gap-16 relative z-10">
           
-          <div className="flex-1 space-y-8 max-w-2xl py-10">
+          <div className="flex-1 space-y-8 max-w-2xl py-10 px-6 lg:px-8">
             <h1 className="text-[3.5rem] md:text-[5rem] lg:text-[6rem] font-black leading-[0.9] tracking-tighter text-[#F4F4F4] relative">
               <Sparkle className="w-16 h-16 text-[#FFED4A] absolute -top-12 -left-6 md:-left-10 rotate-12" />
               One link to drop your next track.
@@ -144,7 +144,7 @@ function App() {
           </div>
           
           {/* Mobile Horizontal Marquee (Tablet/Mobile) */}
-          <div className="w-[calc(100%+3rem)] -ml-6 relative h-[280px] md:h-[360px] lg:hidden flex items-center overflow-hidden mt-6">
+          <div className="w-full relative h-[280px] md:h-[360px] lg:hidden flex items-center overflow-hidden mt-6">
             <div className="absolute left-0 w-max flex pointer-events-none">
               <div className="flex flex-row animate-marquee w-max h-full pointer-events-auto" style={{ animationDuration: '20s' }}>
                 {[...Array(2)].map((_, index) => (
@@ -221,7 +221,7 @@ function App() {
 
 
       {/* CREATE AND CUSTOMIZE - DEEP PURPLE */}
-      <section className="bg-[#5C1425] py-32 px-6 overflow-hidden">
+      <section className="bg-[#5C1425] py-32 px-6 overflow-hidden border-b-4 border-black">
         <div className="max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center gap-16">
           <div className="flex-1 relative w-full h-[600px] flex items-center justify-center perspective-1000">
              {/* Brutalist Music Player Mockup */}
@@ -315,7 +315,7 @@ function App() {
       </section>
 
       {/* INFINITE CAROUSEL - ARTISTS & PLATFORMS */}
-      <section className="bg-white py-32 overflow-hidden border-y-4 border-black">
+      <section className="bg-white py-32 overflow-hidden border-b-4 border-black">
         <div className="max-w-7xl mx-auto px-6 mb-16 text-center relative z-10">
           <Sparkle className="w-16 h-16 text-[#FFED4A] absolute -top-8 right-4 md:right-32 rotate-[45deg]" />
           <h2 className="text-[3rem] md:text-[4rem] lg:text-[5rem] font-black leading-[0.95] tracking-tighter text-black">
@@ -342,10 +342,10 @@ function App() {
           <div className="flex-1 grid grid-cols-2 gap-6 auto-rows-[180px] w-full max-w-xl perspective-1000">
             
             {/* Block 1: Big Chart */}
-            <div className="col-span-2 rounded-[2.5rem] bg-[#6EF3A5] text-black p-8 flex flex-col justify-between border-4 border-black shadow-[8px_8px_0_#8E84F3] hover:-translate-y-2 hover:-translate-x-2 hover:shadow-[16px_16px_0_#8E84F3] transition-all relative overflow-hidden group z-10">
+            <div className="col-span-2 rounded-[2.5rem] bg-[#6EF3A5] text-black p-6 md:p-8 flex flex-col justify-between border-4 border-black shadow-[8px_8px_0_#8E84F3] hover:-translate-y-2 hover:-translate-x-2 hover:shadow-[16px_16px_0_#8E84F3] transition-all relative overflow-hidden group z-10">
               <div className="flex justify-between items-start relative z-10">
                 <div>
-                  <span className="block text-6xl font-black tracking-tighter mb-1">1.2M</span>
+                  <span className="block text-5xl md:text-6xl font-black tracking-tighter mb-1">1.2M</span>
                   <span className="font-black tracking-widest uppercase text-xs">Monthly Streams</span>
                 </div>
                 <div className="bg-black text-white px-4 py-2 rounded-full font-black text-sm border-2 border-transparent">
@@ -360,26 +360,26 @@ function App() {
             </div>
             
             {/* Block 2: Tickets */}
-            <div className="col-span-1 rounded-[2.5rem] bg-[#FFED4A] text-black p-8 flex flex-col justify-center items-center text-center border-4 border-black shadow-[8px_8px_0_#111111] hover:-translate-y-2 hover:-translate-x-2 hover:shadow-[16px_16px_0_#111111] transition-all z-20">
-              <span className="text-5xl font-black tracking-tighter mb-2">15k</span>
-              <span className="font-black uppercase tracking-widest text-xs">Tickets Sold</span>
+            <div className="col-span-1 rounded-[2.5rem] bg-[#FFED4A] text-black p-6 md:p-8 flex flex-col justify-center items-center text-center border-4 border-black shadow-[8px_8px_0_#111111] hover:-translate-y-2 hover:-translate-x-2 hover:shadow-[16px_16px_0_#111111] transition-all z-20">
+              <span className="text-4xl md:text-5xl font-black tracking-tighter mb-2">15k</span>
+              <span className="font-black uppercase tracking-widest text-[10px] md:text-xs">Tickets Sold</span>
             </div>
 
             {/* Block 3: Merch */}
-            <div className="col-span-1 rounded-[2.5rem] bg-[#8E84F3] text-white p-8 flex flex-col justify-center items-center text-center border-4 border-black shadow-[8px_8px_0_#1DB954] hover:-translate-y-2 hover:-translate-x-2 hover:shadow-[16px_16px_0_#1DB954] transition-all z-20">
-              <span className="text-4xl font-black tracking-tighter mb-2">$45k</span>
-              <span className="font-black uppercase tracking-widest text-xs text-[#6EF3A5]">Merch Rev</span>
+            <div className="col-span-1 rounded-[2.5rem] bg-[#8E84F3] text-white p-6 md:p-8 flex flex-col justify-center items-center text-center border-4 border-black shadow-[8px_8px_0_#1DB954] hover:-translate-y-2 hover:-translate-x-2 hover:shadow-[16px_16px_0_#1DB954] transition-all z-20">
+              <span className="text-3xl md:text-4xl font-black tracking-tighter mb-2">$45k</span>
+              <span className="font-black uppercase tracking-widest text-[10px] md:text-xs text-[#6EF3A5]">Merch Rev</span>
             </div>
             
             {/* Block 4: Bar Chart */}
-            <div className="col-span-2 rounded-[2.5rem] bg-white text-black p-8 flex flex-row items-center justify-between border-4 border-black shadow-[8px_8px_0_#111111] hover:-translate-y-2 hover:-translate-x-2 hover:shadow-[16px_16px_0_#111111] transition-all z-10">
-              <div className="flex gap-3 items-end h-16">
+            <div className="col-span-2 rounded-[2.5rem] bg-white text-black p-6 md:p-8 flex flex-row items-center justify-between border-4 border-black shadow-[8px_8px_0_#111111] hover:-translate-y-2 hover:-translate-x-2 hover:shadow-[16px_16px_0_#111111] transition-all z-10">
+              <div className="flex gap-2 md:gap-3 items-end h-16">
                 {[40, 70, 40, 90, 60, 100, 30].map((h, i) => (
-                  <div key={i} className="w-5 bg-black rounded-t-sm relative group-hover:bg-[#8E84F3] transition-colors" style={{ height: `${h}%` }}></div>
+                  <div key={i} className="w-4 md:w-5 bg-black rounded-t-sm relative group-hover:bg-[#8E84F3] transition-colors" style={{ height: `${h}%` }}></div>
                 ))}
               </div>
               <div className="text-right flex flex-col justify-center">
-                <span className="text-5xl font-black tracking-tighter mb-1">Top 5%</span>
+                <span className="text-4xl md:text-5xl font-black tracking-tighter mb-1">Top 5%</span>
                 <span className="font-bold text-gray-500 uppercase tracking-widest text-[10px]">Spotify Creators</span>
               </div>
             </div>
@@ -403,7 +403,7 @@ function App() {
       </section>
 
       {/* SHARE ANYWHERE - PURE BLACK & NEON */}
-      <section className="bg-[#FFED4A] py-32 px-6 overflow-hidden">
+      <section className="bg-[#FFED4A] py-32 px-6 overflow-hidden border-b-4 border-black">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16">
           <div className="flex-1 space-y-6">
             <h1 className="text-[3rem] md:text-[6rem] lg:text-[7rem] leading-[0.85] font-black text-black mb-8 tracking-tighter uppercase relative z-10">
@@ -423,36 +423,37 @@ function App() {
 
           <div className="flex-1 relative w-full h-[600px] flex items-center justify-center">
             {/* Bio Link Stack */}
-            <div className="relative w-[340px] h-[480px] group">
+            {/* Bio Link Stack */}
+            <div className="relative w-[240px] sm:w-[280px] md:w-[340px] h-[380px] sm:h-[440px] md:h-[480px] group">
               {/* Stack Layers - True Fan Effect (Leque) */}
-              <div className="absolute inset-0 bg-[#6EF3A5] border-[4px] border-black rounded-[2.5rem] origin-bottom -rotate-[8deg] -translate-x-8 translate-y-2 transition-all duration-500 group-hover:-rotate-[12deg] group-hover:-translate-x-12 group-hover:translate-y-4"></div>
-              <div className="absolute inset-0 bg-[#1DB954] border-[4px] border-black rounded-[2.5rem] origin-bottom rotate-[8deg] translate-x-8 translate-y-2 transition-all duration-500 group-hover:rotate-[12deg] group-hover:translate-x-12 group-hover:translate-y-4"></div>
-              <div className="absolute inset-0 bg-[#8E84F3] border-[4px] border-black rounded-[2.5rem] origin-bottom -rotate-[4deg] -translate-x-4 translate-y-1 transition-all duration-500 group-hover:-rotate-[6deg] group-hover:-translate-x-6 group-hover:translate-y-2"></div>
-              <div className="absolute inset-0 bg-[#FFED4A] border-[4px] border-black rounded-[2.5rem] origin-bottom rotate-[4deg] translate-x-4 translate-y-1 transition-all duration-500 group-hover:rotate-[6deg] group-hover:translate-x-6 group-hover:translate-y-2"></div>
+              <div className="absolute inset-0 bg-[#6EF3A5] border-[4px] border-black rounded-[2rem] md:rounded-[2.5rem] origin-bottom -rotate-[8deg] -translate-x-4 sm:-translate-x-6 md:-translate-x-8 translate-y-2 transition-all duration-500 group-hover:-rotate-[12deg] group-hover:-translate-x-8 md:group-hover:-translate-x-12 group-hover:translate-y-4"></div>
+              <div className="absolute inset-0 bg-[#1DB954] border-[4px] border-black rounded-[2rem] md:rounded-[2.5rem] origin-bottom rotate-[8deg] translate-x-4 sm:translate-x-6 md:translate-x-8 translate-y-2 transition-all duration-500 group-hover:rotate-[12deg] group-hover:translate-x-8 md:group-hover:translate-x-12 group-hover:translate-y-4"></div>
+              <div className="absolute inset-0 bg-[#8E84F3] border-[4px] border-black rounded-[2rem] md:rounded-[2.5rem] origin-bottom -rotate-[4deg] -translate-x-2 sm:-translate-x-3 md:-translate-x-4 translate-y-1 transition-all duration-500 group-hover:-rotate-[6deg] group-hover:-translate-x-4 md:group-hover:-translate-x-6 group-hover:translate-y-2"></div>
+              <div className="absolute inset-0 bg-[#FFED4A] border-[4px] border-black rounded-[2rem] md:rounded-[2.5rem] origin-bottom rotate-[4deg] translate-x-2 sm:translate-x-3 md:translate-x-4 translate-y-1 transition-all duration-500 group-hover:rotate-[6deg] group-hover:translate-x-4 md:group-hover:translate-x-6 group-hover:translate-y-2"></div>
               
               {/* Main Card */}
-              <div className="absolute inset-0 bg-white border-[4px] border-black rounded-[2.5rem] p-8 flex flex-col items-center shadow-[8px_8px_0_#111111] z-10 transition-transform duration-500 group-hover:-translate-y-1 group-hover:-translate-x-1">
+              <div className="absolute inset-0 bg-white border-[4px] border-black rounded-[2rem] md:rounded-[2.5rem] p-5 sm:p-6 md:p-8 flex flex-col items-center shadow-[8px_8px_0_#111111] z-10 transition-transform duration-500 group-hover:-translate-y-1 group-hover:-translate-x-1">
                 
                 {/* Avatar */}
-                <div className="relative w-28 h-28 mb-4 mt-2">
+                <div className="relative w-20 h-20 md:w-28 md:h-28 mb-3 md:mb-4 mt-2">
                   <div className="absolute inset-0 bg-[#FFED4A] rounded-full border-[4px] border-black translate-x-1.5 translate-y-1.5"></div>
                   <div className="relative w-full h-full rounded-full border-[4px] border-black overflow-hidden bg-white z-10">
                     <img src="/imgs/avatar.png" className="w-full h-full object-cover" alt="Profile" />
                   </div>
                 </div>
 
-                <h3 className="text-3xl font-black text-black text-center mb-1 tracking-tight">@theband</h3>
-                <p className="text-center font-bold mb-8 text-gray-400 uppercase tracking-widest text-[10px]">Link in bio</p>
+                <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-black text-center mb-1 tracking-tight">@theband</h3>
+                <p className="text-center font-bold mb-4 sm:mb-8 text-gray-400 uppercase tracking-widest text-[10px]">Link in bio</p>
                 
                 {/* Buttons */}
-                <div className="flex flex-col gap-3 w-full px-2">
-                  <div className="bg-[#FFED4A] text-white px-6 py-3 rounded-2xl border-[4px] border-black font-black uppercase text-lg text-center shadow-[4px_4px_0_#111111] hover:-translate-y-0.5 hover:-translate-x-0.5 hover:shadow-[6px_6px_0_#111111] transition-all cursor-pointer [text-shadow:-1px_-1px_0_#111,1px_-1px_0_#111,-1px_1px_0_#111,1px_1px_0_#111]">
+                <div className="flex flex-col gap-2 sm:gap-3 w-full px-1 sm:px-2">
+                  <div className="bg-[#FFED4A] text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl md:rounded-2xl border-[3px] md:border-[4px] border-black font-black uppercase text-base sm:text-lg text-center shadow-[4px_4px_0_#111111] hover:-translate-y-0.5 hover:-translate-x-0.5 hover:shadow-[6px_6px_0_#111111] transition-all cursor-pointer [text-shadow:-1px_-1px_0_#111,1px_-1px_0_#111,-1px_1px_0_#111,1px_1px_0_#111]">
                     TikTok
                   </div>
-                  <div className="bg-[#1DB954] text-black px-6 py-3 rounded-2xl border-[4px] border-black font-black uppercase text-lg text-center shadow-[4px_4px_0_#111111] hover:-translate-y-0.5 hover:-translate-x-0.5 hover:shadow-[6px_6px_0_#111111] transition-all cursor-pointer">
+                  <div className="bg-[#1DB954] text-black px-4 sm:px-6 py-2 sm:py-3 rounded-xl md:rounded-2xl border-[3px] md:border-[4px] border-black font-black uppercase text-base sm:text-lg text-center shadow-[4px_4px_0_#111111] hover:-translate-y-0.5 hover:-translate-x-0.5 hover:shadow-[6px_6px_0_#111111] transition-all cursor-pointer">
                     Spotify
                   </div>
-                  <div className="bg-black text-[#6EF3A5] px-6 py-3 rounded-2xl border-[4px] border-black font-black uppercase text-lg text-center shadow-[4px_4px_0_#6EF3A5] hover:-translate-y-0.5 hover:-translate-x-0.5 hover:shadow-[6px_6px_0_#6EF3A5] transition-all cursor-pointer">
+                  <div className="bg-black text-[#6EF3A5] px-4 sm:px-6 py-2 sm:py-3 rounded-xl md:rounded-2xl border-[3px] md:border-[4px] border-black font-black uppercase text-base sm:text-lg text-center shadow-[4px_4px_0_#6EF3A5] hover:-translate-y-0.5 hover:-translate-x-0.5 hover:shadow-[6px_6px_0_#6EF3A5] transition-all cursor-pointer">
                     Merch
                   </div>
                 </div>
@@ -463,7 +464,7 @@ function App() {
       </section>
 
       {/* THE ULTIMATE BENTO GRID SECTION */}
-      <section className="bg-[#6EF3A5] py-32 px-6 overflow-hidden">
+      <section className="bg-[#6EF3A5] py-32 px-6 overflow-hidden border-b-4 border-black">
         <div className="max-w-7xl mx-auto space-y-16">
           <div className="text-center max-w-3xl mx-auto relative z-10">
             <CrossSticker className="w-16 h-16 text-[#FFED4A] absolute -top-8 -left-4 md:-top-10 md:-left-12 rotate-12" />
@@ -583,7 +584,7 @@ function App() {
       </section>
 
       {/* FAQ SECTION - DARK */}
-      <section className="bg-[#0A0A0A] py-32 px-6 text-white pb-40">
+      <section className="bg-[#0A0A0A] py-32 px-6 text-white pb-40 border-b-4 border-black">
         <div className="max-w-3xl mx-auto space-y-6">
           <div className="text-center mb-16 relative z-10">
             <h2 className="text-[3rem] md:text-[4rem] font-black tracking-tighter text-[#6EF3A5] uppercase leading-[0.9]">
@@ -620,7 +621,7 @@ function App() {
         <div className="max-w-7xl mx-auto bg-white rounded-[3rem] p-10 lg:p-16 border-4 border-black shadow-[12px_12px_0_#FFED4A] flex flex-col">
           
           {/* Top Links Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 md:gap-10 mb-16 text-center sm:text-left">
             <div className="space-y-6">
               <h4 className="font-black text-xl text-black">Company</h4>
               <ul className="space-y-4">
@@ -670,12 +671,12 @@ function App() {
           </div>
 
           {/* Bottom Actions Row */}
-          <div className="flex flex-col xl:flex-row items-center justify-between gap-8 mt-auto pt-8 relative z-10">
-            <SmileNeo className="w-16 h-16 text-[#6EF3A5] absolute -top-10 left-1/2 -translate-x-1/2 xl:left-[45%] rotate-[-15deg]" />
+          <div className="flex flex-col xl:flex-row items-center justify-between gap-10 xl:gap-8 mt-auto pt-12 xl:pt-8 relative z-10">
+            <SmileNeo className="w-16 h-16 text-[#6EF3A5] absolute -top-12 xl:-top-10 left-1/2 -translate-x-1/2 xl:left-[45%] rotate-[-15deg]" />
             {/* CTA Buttons */}
-            <div className="flex items-center gap-4 w-full xl:w-auto justify-center xl:justify-start">
-              <button className="bg-gray-100 text-black px-8 py-4 rounded-full font-black text-lg hover:bg-gray-200 transition-colors">Log in</button>
-              <button className="bg-[#6EF3A5] text-black px-8 py-4 rounded-full font-black text-lg border-4 border-black shadow-[4px_4px_0_#111111] hover:-translate-y-1 hover:shadow-[6px_6px_0_#111111] transition-all">Get started for free</button>
+            <div className="flex flex-col sm:flex-row items-center gap-4 w-full xl:w-auto justify-center xl:justify-start">
+              <button className="bg-gray-100 text-black px-8 py-4 rounded-full font-black text-base sm:text-lg hover:bg-gray-200 transition-colors whitespace-nowrap w-full sm:w-auto">Log in</button>
+              <button className="bg-[#6EF3A5] text-black px-8 py-4 rounded-full font-black text-base sm:text-lg border-4 border-black shadow-[4px_4px_0_#111111] hover:-translate-y-1 hover:shadow-[6px_6px_0_#111111] transition-all whitespace-nowrap w-full sm:w-auto">Get started for free</button>
             </div>
             
             {/* Social & Stores */}
