@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { BentoCard } from './components/BentoCard';
 import { Sparkle, CircleSticker, AsteriskSticker, ZigZag, ArrowNeo, CrossSticker, PillSticker, SpringNeo, SmileNeo } from './components/BrutalistIcons';
 
@@ -52,10 +52,97 @@ const CarouselCard = ({ item }: { item: typeof carouselItems[0] }) => {
   );
 }
 
+// Custom Hook for Draggable Auto-Scroll
+function useDraggableScroll(direction: 'horizontal' | 'vertical' | 'none' = 'none', autoSpeed = 1) {
+  const ref = useRef<HTMLDivElement>(null);
+  const isDown = useRef(false);
+  const startPos = useRef(0);
+  const scrollPos = useRef(0);
+  const isHovered = useRef(false);
+
+  useEffect(() => {
+    if (direction === 'none' || autoSpeed === 0) return;
+    const el = ref.current;
+    if (!el) return;
+    let animationId: number;
+
+    const scroll = () => {
+      if (!isDown.current && !isHovered.current && el) {
+        if (direction === 'horizontal') {
+          el.scrollLeft += autoSpeed;
+          if (el.scrollLeft >= el.scrollWidth / 2) {
+            el.scrollLeft = 0;
+          }
+        } else {
+          el.scrollTop += autoSpeed;
+          if (el.scrollTop >= el.scrollHeight / 2) {
+            el.scrollTop = 0;
+          }
+        }
+      }
+      animationId = requestAnimationFrame(scroll);
+    };
+    animationId = requestAnimationFrame(scroll);
+    return () => cancelAnimationFrame(animationId);
+  }, [direction, autoSpeed]);
+
+  const onMouseDown = useCallback((e: React.MouseEvent) => {
+    if (!ref.current) return;
+    isDown.current = true;
+    if (direction === 'horizontal') {
+      startPos.current = e.pageX - ref.current.offsetLeft;
+      scrollPos.current = ref.current.scrollLeft;
+    } else {
+      startPos.current = e.pageY - ref.current.offsetTop;
+      scrollPos.current = ref.current.scrollTop;
+    }
+  }, [direction]);
+
+  const onMouseLeave = useCallback(() => {
+    isDown.current = false;
+    isHovered.current = false;
+  }, []);
+
+  const onMouseUp = useCallback(() => {
+    isDown.current = false;
+  }, []);
+
+  const onMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!isDown.current || !ref.current) return;
+    e.preventDefault();
+    if (direction === 'horizontal') {
+      const x = e.pageX - ref.current.offsetLeft;
+      const walk = (x - startPos.current) * 2;
+      ref.current.scrollLeft = scrollPos.current - walk;
+    } else {
+      const y = e.pageY - ref.current.offsetTop;
+      const walk = (y - startPos.current) * 2;
+      ref.current.scrollTop = scrollPos.current - walk;
+    }
+  }, [direction]);
+
+  const onMouseEnter = useCallback(() => {
+    isHovered.current = true;
+  }, []);
+
+  return { 
+    ref, 
+    onMouseDown, 
+    onMouseLeave, 
+    onMouseUp, 
+    onMouseMove,
+    onMouseEnter
+  };
+}
+
 function App() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+
+  const mobileMarqueeProps = useDraggableScroll('horizontal', 1);
+  const desktopMarqueeProps = useDraggableScroll('vertical', 1);
+  const whiteMarqueeProps = useDraggableScroll('horizontal', 1.5);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -93,6 +180,13 @@ function App() {
           .animate-marquee-vertical {
             animation: marquee-vertical 20s linear infinite;
           }
+          .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+          }
+          .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+          }
         `}
       </style>
 
@@ -120,6 +214,17 @@ function App() {
 
       {/* HERO SECTION - VIBRANT ORANGE */}
       <section className="bg-[#8E84F3] pt-40 pb-20 min-h-[100vh] flex flex-col justify-center overflow-hidden relative border-b-4 border-black">
+        {/* Background Giant Shapes */}
+        <CircleSticker className="w-[600px] h-[600px] text-white opacity-10 absolute -top-40 -left-40 z-0 pointer-events-none hidden md:block" />
+        <CrossSticker className="w-[400px] h-[400px] text-[#FFED4A] opacity-10 absolute -bottom-20 -right-20 rotate-45 z-0 pointer-events-none" />
+        
+        {/* Medium / Small Scatter */}
+        <ZigZag className="w-32 h-16 text-[#FFED4A] absolute bottom-12 right-12 md:right-32 rotate-12 z-0 hidden lg:block" />
+        <SpringNeo className="w-24 h-24 text-[#6EF3A5] absolute top-32 right-1/4 -rotate-12 z-0 hidden md:block opacity-80" />
+        <PillSticker className="w-16 h-8 text-white absolute top-1/2 left-8 md:left-12 rotate-[45deg] z-0" />
+        <Sparkle className="w-8 h-8 text-[#FFED4A] absolute top-20 left-1/3 animate-spin-slow z-0" />
+        <Sparkle className="w-6 h-6 text-white absolute bottom-40 left-1/4 rotate-45 z-0" />
+        
         <div className="max-w-7xl mx-auto w-full flex flex-col lg:flex-row items-center gap-16 relative z-10">
           
           <div className="flex-1 space-y-8 max-w-2xl py-10 px-6 lg:px-8">
@@ -144,9 +249,12 @@ function App() {
           </div>
           
           {/* Mobile Horizontal Marquee (Tablet/Mobile) */}
-          <div className="w-full relative h-[280px] md:h-[360px] lg:hidden flex items-center overflow-hidden mt-6">
-            <div className="absolute left-0 w-max flex pointer-events-none">
-              <div className="flex flex-row animate-marquee w-max h-full pointer-events-auto" style={{ animationDuration: '20s' }}>
+          <div className="w-full relative h-[280px] md:h-[360px] lg:hidden mt-6">
+            <div 
+              {...mobileMarqueeProps}
+              className="flex items-center overflow-x-auto overflow-y-hidden scrollbar-hide touch-pan-x cursor-grab active:cursor-grabbing w-full h-full"
+            >
+              <div className="flex flex-row w-max h-full">
                 {[...Array(2)].map((_, index) => (
                   <div key={index} className="flex flex-row gap-4 md:gap-8 pr-4 md:pr-8 shrink-0">
                     {/* Item 1 - DJ Purple */}
@@ -182,9 +290,13 @@ function App() {
           {/* Vertical Marquee Carousel Container (Desktop Original) */}
           <div className="hidden lg:flex flex-1 w-full relative h-full min-h-[800px] justify-end">
             {/* Bleeding wrapper that extends far beyond the section vertically */}
-            <div className="absolute top-[-50vh] bottom-[-50vh] w-full max-w-[450px] flex justify-center overflow-visible pointer-events-none">
+            <div className="absolute top-[-50vh] bottom-[-50vh] w-full max-w-[450px] flex justify-center overflow-visible">
               
-              <div className="flex flex-col animate-marquee-vertical w-full h-fit pointer-events-auto" style={{ animationDuration: '20s' }}>
+              <div 
+                {...desktopMarqueeProps}
+                className="flex flex-col w-full h-full overflow-y-auto overflow-x-hidden scrollbar-hide cursor-grab active:cursor-grabbing"
+              >
+                <div className="flex flex-col h-max">
                 {[...Array(2)].map((_, index) => (
                   <div key={index} className="flex flex-col gap-8 pb-8 shrink-0">
                     {/* Item 1 - DJ Purple */}
@@ -217,11 +329,20 @@ function App() {
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
 
       {/* CREATE AND CUSTOMIZE - DEEP PURPLE */}
-      <section className="bg-[#5C1425] py-32 px-6 overflow-hidden border-b-4 border-black">
+      <section className="bg-[#5C1425] py-32 px-6 overflow-hidden border-b-4 border-black relative">
+        <CircleSticker className="w-20 h-20 text-[#6EF3A5] absolute top-10 left-10 md:left-20 rotate-12 z-0" />
+        <AsteriskSticker className="w-16 h-16 text-[#FFED4A] absolute bottom-10 right-10 md:right-32 animate-spin-slow z-0" />
+        
+        {/* Variations */}
+        <SpringNeo className="w-[300px] h-[300px] text-[#8E84F3] opacity-20 absolute top-1/2 -left-20 rotate-[120deg] pointer-events-none" />
+        <ArrowNeo className="w-12 h-12 text-[#FF2D78] absolute top-40 right-10 lg:right-1/4 rotate-[-15deg] hidden md:block" />
+        <Sparkle className="w-10 h-10 text-white absolute bottom-1/4 left-1/3 animate-spin-slow opacity-50" />
+        
         <div className="max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center gap-16">
           <div className="flex-1 relative w-full h-[600px] flex items-center justify-center perspective-1000">
              {/* Brutalist Music Player Mockup */}
@@ -325,10 +446,13 @@ function App() {
         </div>
         
         {/* Marquee Track */}
-        <div className="relative w-full flex overflow-hidden py-12 hover:[&>div]:[animation-play-state:paused]">
-          <div className="flex animate-marquee whitespace-nowrap min-w-max">
-            {/* Duplicating the array multiple times to ensure a seamless infinite loop */}
-            {[...carouselItems, ...carouselItems, ...carouselItems].map((item, index) => (
+        <div 
+          {...whiteMarqueeProps}
+          className="relative w-full flex overflow-x-auto overflow-y-hidden py-12 scrollbar-hide cursor-grab active:cursor-grabbing touch-pan-x"
+        >
+          <div className="flex flex-row whitespace-nowrap min-w-max">
+            {/* Duplicating exactly twice for seamless scrollHeight/2 loop calculation */}
+            {[...carouselItems, ...carouselItems].map((item, index) => (
               <CarouselCard key={`${item.id}-${index}`} item={item} />
             ))}
           </div>
@@ -336,8 +460,18 @@ function App() {
       </section>
 
       {/* STATS SECTION - BENTO GRID CYAN */}
-      <section className="bg-[#00E5FF] py-32 px-6 border-b-4 border-black">
-        <div className="max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center gap-20">
+      <section className="bg-[#00E5FF] py-32 px-6 border-b-4 border-black relative overflow-hidden">
+        <SmileNeo className="w-24 h-24 text-[#8E84F3] absolute bottom-12 left-12 rotate-[-15deg] hidden md:block" />
+        <CrossSticker className="w-16 h-16 text-[#FFED4A] absolute top-20 right-12 rotate-[25deg] hidden lg:block" />
+        <AsteriskSticker className="w-10 h-10 text-white absolute bottom-1/3 left-1/4 rotate-180" />
+        <CircleSticker className="w-12 h-12 text-[#8E84F3] absolute top-10 left-1/3" />
+        
+        {/* Size Variations */}
+        <ZigZag className="w-[500px] h-[200px] text-[#6EF3A5] opacity-20 absolute -top-10 -left-20 rotate-[-10deg] pointer-events-none" />
+        <AsteriskSticker className="w-8 h-8 text-[#FF2D78] absolute top-1/2 right-4 md:right-20 rotate-45" />
+        <PillSticker className="w-[800px] h-[400px] text-white opacity-10 absolute bottom-[-200px] right-[-200px] rotate-[-45deg] pointer-events-none hidden md:block" />
+        
+        <div className="max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center gap-20 relative z-10">
           
           <div className="flex-1 grid grid-cols-2 gap-6 auto-rows-[180px] w-full max-w-xl perspective-1000">
             
@@ -423,7 +557,6 @@ function App() {
 
           <div className="flex-1 relative w-full h-[600px] flex items-center justify-center">
             {/* Bio Link Stack */}
-            {/* Bio Link Stack */}
             <div className="relative w-[240px] sm:w-[280px] md:w-[340px] h-[380px] sm:h-[440px] md:h-[480px] group">
               {/* Stack Layers - True Fan Effect (Leque) */}
               <div className="absolute inset-0 bg-[#6EF3A5] border-[4px] border-black rounded-[2rem] md:rounded-[2.5rem] origin-bottom -rotate-[8deg] -translate-x-4 sm:-translate-x-6 md:-translate-x-8 translate-y-2 transition-all duration-500 group-hover:-rotate-[12deg] group-hover:-translate-x-8 md:group-hover:-translate-x-12 group-hover:translate-y-4"></div>
@@ -475,9 +608,9 @@ function App() {
             </h2>
           </div>
           
-          <div className="flex flex-col md:flex-row gap-6 h-auto md:h-[800px]">
+          <div className="flex flex-col lg:flex-row gap-6 h-auto lg:h-[800px]">
             {/* Column 1 */}
-            <div className="flex-1 flex flex-col gap-6">
+            <div className="flex-1 flex flex-col gap-6 min-w-0">
               {/* Col 1 Top (Tall) */}
               <div className="flex-[3] min-h-[300px] rounded-[3rem] bg-black p-8 flex flex-col justify-end relative overflow-hidden group border-4 border-black shadow-[8px_8px_0_#8E84F3] hover:-translate-y-1 hover:shadow-[12px_12px_0_#8E84F3] transition-all">
                 <img src="/imgs/dj.png" className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700" alt="DJ" />
@@ -504,7 +637,7 @@ function App() {
             </div>
 
             {/* Column 2 */}
-            <div className="flex-1 flex flex-col gap-6">
+            <div className="flex-1 flex flex-col gap-6 min-w-0">
               {/* Col 2 Top (Square) */}
               <div className="flex-[2] min-h-[250px] rounded-[3rem] bg-white p-6 flex flex-col justify-between border-4 border-black hover:-translate-y-1 transition-transform relative overflow-hidden shadow-[8px_8px_0_#111111] group">
                 <div className="flex justify-between items-center mb-4 relative z-10">
@@ -546,7 +679,7 @@ function App() {
             </div>
 
             {/* Column 3 */}
-            <div className="flex-1 flex flex-col gap-6">
+            <div className="flex-1 flex flex-col gap-6 min-w-0">
               {/* Col 3 Top (Very Tall) */}
               <div className="flex-[4] min-h-[400px] rounded-[3rem] bg-[#FFED4A] p-8 flex flex-col relative overflow-hidden border-4 border-black shadow-[8px_8px_0_#1DB954] hover:-translate-y-1 hover:shadow-[12px_12px_0_#1DB954] transition-all group cursor-pointer">
                 <img src="/imgs/guitar.png" className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700" alt="Guitar" />
@@ -584,8 +717,16 @@ function App() {
       </section>
 
       {/* FAQ SECTION - DARK */}
-      <section className="bg-[#0A0A0A] py-32 px-6 text-white pb-40 border-b-4 border-black">
-        <div className="max-w-3xl mx-auto space-y-6">
+      <section className="bg-[#111111] py-32 px-6 border-b-4 border-black relative overflow-hidden">
+        {/* Background graphic elements */}
+        <AsteriskSticker className="w-[800px] h-[800px] text-[#222222] absolute -top-1/4 -right-1/4 rotate-45 pointer-events-none z-0 hidden lg:block" />
+        <CircleSticker className="w-[400px] h-[400px] text-[#222222] absolute bottom-10 -left-20 pointer-events-none z-0" />
+        
+        <SmileNeo className="w-16 h-16 text-[#FFED4A] absolute top-12 left-12 md:left-32 rotate-[-20deg] z-0 hidden lg:block" />
+        <SpringNeo className="w-20 h-20 text-[#6EF3A5] absolute bottom-32 right-12 lg:right-32 rotate-[40deg] z-0 opacity-70" />
+        <Sparkle className="w-10 h-10 text-[#FF2D78] absolute top-1/3 right-8 md:right-1/4 z-0 animate-spin-slow" />
+        
+        <div className="max-w-3xl mx-auto space-y-6 relative z-10">
           <div className="text-center mb-16 relative z-10">
             <h2 className="text-[3rem] md:text-[4rem] font-black tracking-tighter text-[#6EF3A5] uppercase leading-[0.9]">
               Got<br/>
@@ -617,8 +758,16 @@ function App() {
       </section>
 
       {/* FOOTER */}
-      <footer className="bg-[#0A0A0A] px-6 pb-12 pt-10">
-        <div className="max-w-7xl mx-auto bg-white rounded-[3rem] p-10 lg:p-16 border-4 border-black shadow-[12px_12px_0_#FFED4A] flex flex-col">
+      <footer className="bg-black pt-32 pb-16 px-6 border-t-[16px] border-[#FFED4A] relative overflow-hidden">
+        <ZigZag className="w-40 h-20 text-[#8E84F3] absolute top-12 left-12 rotate-[-15deg] z-0 opacity-80 hidden md:block" />
+        <SpringNeo className="w-32 h-32 text-[#FF2D78] absolute bottom-20 right-12 rotate-[35deg] z-0 opacity-80 hidden lg:block" />
+        
+        {/* More scattered elements */}
+        <CrossSticker className="w-[600px] h-[600px] text-[#222222] absolute -top-40 -right-40 rotate-[15deg] z-0 pointer-events-none" />
+        <AsteriskSticker className="w-12 h-12 text-[#6EF3A5] absolute top-40 right-1/4 z-0 animate-spin-slow hidden xl:block" />
+        <Sparkle className="w-8 h-8 text-white absolute bottom-1/3 left-10 rotate-45 z-0" />
+        
+        <div className="max-w-7xl mx-auto w-full relative z-10 bg-white rounded-[3rem] p-10 lg:p-16 border-4 border-black shadow-[12px_12px_0_#FFED4A] flex flex-col">
           
           {/* Top Links Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 md:gap-10 mb-16 text-center sm:text-left">
