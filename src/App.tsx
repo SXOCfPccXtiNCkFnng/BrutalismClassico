@@ -171,110 +171,88 @@ function App() {
 
 
       {/* CREATE AND CUSTOMIZE - DEEP PURPLE */}
-      <section className="bg-[#111111] py-32 px-6 overflow-hidden">
+      <section className="bg-[#5C1425] py-32 px-6 overflow-hidden">
         <div className="max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center gap-16">
           <div className="flex-1 relative w-full h-[600px] flex items-center justify-center perspective-1000">
-             {/* Mini Bento Grid Mockup replacing Phone */}
-             <div className="relative w-full max-w-[600px] h-auto transform -rotate-[4deg] hover:rotate-0 hover:-translate-y-2 transition-all duration-700 z-10 perspective-1000 scale-[0.8] sm:scale-100 origin-left sm:origin-center">
-               <div className="grid grid-cols-3 gap-4 auto-rows-[120px]">
+             {/* Brutalist Music Player Mockup */}
+             <div className="relative w-full max-w-[500px] h-auto transform rotate-[2deg] hover:rotate-0 hover:-translate-y-2 transition-all duration-700 z-10 perspective-1000 mx-auto">
+                <div className="bg-[#8E84F3] border-4 border-black rounded-[2rem] p-6 shadow-[12px_12px_0_#6EF3A5] flex flex-col gap-6 relative">
                   
-                  {/* Block 1: Green Stat */}
-                  <div className="col-span-1 row-span-1 bg-[#1DB954] rounded-[2rem] p-5 flex flex-col justify-between shadow-lg border border-black/5">
-                    <div className="flex justify-between items-start">
-                      <span className="text-black font-black text-3xl tracking-tighter">4.8M</span>
-                      <span className="text-black">🎧</span>
-                    </div>
-                    <div>
-                      <span className="text-black font-bold text-xs uppercase tracking-widest">Total Streams</span>
-                      <p className="text-black/70 text-[10px] font-bold mt-1">last year</p>
+                  {/* Top Bar / Branding */}
+                  <div className="flex justify-between items-center border-b-4 border-black pb-4">
+                    <span className="font-black text-black text-2xl tracking-tighter uppercase leading-none">Beat<br/>Deck<span className="text-[#6EF3A5]">.</span></span>
+                    <div className="flex gap-2">
+                       <div className="w-5 h-5 rounded-full border-4 border-black bg-[#FF2D78]"></div>
+                       <div className="w-5 h-5 rounded-full border-4 border-black bg-[#FFED4A]"></div>
+                       <div className="w-5 h-5 rounded-full border-4 border-black bg-[#6EF3A5]"></div>
                     </div>
                   </div>
 
-                  {/* Block 2: Dark Stat */}
-                  <div className="col-span-1 row-span-1 bg-[#FFED4A] rounded-[2rem] p-5 flex flex-col justify-between shadow-lg border border-white/10">
-                    <span className="text-white/70 font-bold text-[10px] uppercase tracking-widest">New Fans</span>
-                    <span className="text-white font-black text-[2.5rem] leading-none tracking-tighter">57K</span>
-                    <span className="text-white font-bold text-xs">+12.5%</span>
+                  {/* Now Playing Screen */}
+                  <div className="bg-black border-4 border-black rounded-xl p-4 flex items-center gap-4 relative overflow-hidden group">
+                     {/* Spinning Record */}
+                     <div className="w-20 h-20 rounded-full border-4 border-[#6EF3A5] bg-[#111111] flex items-center justify-center animate-[spin_4s_linear_infinite] relative shrink-0">
+                        <div className="absolute inset-2 rounded-full border-2 border-gray-800"></div>
+                        <div className="w-6 h-6 rounded-full bg-[#FFED4A] border-2 border-[#6EF3A5]"></div>
+                     </div>
+                     <div className="flex-1 overflow-hidden">
+                        <span className="text-[#6EF3A5] font-black text-xs uppercase tracking-widest block mb-1">Now Playing</span>
+                        <div className="overflow-hidden whitespace-nowrap w-full relative">
+                           <h4 className="text-white font-black text-2xl uppercase tracking-tighter animate-marquee inline-block">
+                             NEO-BRUTALIST BEATS — THE ELECTRIC RIOT — RAW SOUND — 
+                           </h4>
+                        </div>
+                        <span className="text-gray-400 font-bold text-sm">Sonic Mutiny</span>
+                     </div>
                   </div>
 
-                  {/* Block 3: Vertical Team/Profile */}
-                  <div className="col-span-1 row-span-2 bg-white rounded-[2rem] p-5 flex flex-col shadow-lg border border-gray-100 relative overflow-hidden">
-                    <span className="bg-[#6EF3A5] text-black font-bold text-[10px] px-3 py-1 rounded-full w-max mb-3 uppercase tracking-widest">Global Reach</span>
-                    <p className="font-black text-black leading-tight text-sm">Fans across 50+ countries tuning in daily.</p>
-                    <div className="mt-auto flex -space-x-3">
-                      <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&fit=crop" className="w-10 h-10 rounded-full border-2 border-white object-cover shadow-sm"/>
-                      <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&fit=crop" className="w-10 h-10 rounded-full border-2 border-white object-cover shadow-sm"/>
-                      <div className="w-10 h-10 rounded-full border-2 border-white bg-[#8E84F3] text-white flex items-center justify-center text-xs font-bold shadow-sm">+9</div>
+                  {/* Progress Bar */}
+                  <div className="w-full flex items-center gap-3">
+                    <span className="text-black font-black text-xs">01:24</span>
+                    <div className="flex-1 h-6 border-4 border-black rounded-full bg-white relative overflow-hidden shadow-[inset_0_3px_0_rgba(0,0,0,0.1)]">
+                       <div className="absolute top-0 left-0 h-full bg-[#FF2D78] w-[45%] border-r-4 border-black"></div>
+                    </div>
+                    <span className="text-black font-black text-xs">03:42</span>
+                  </div>
+
+                  {/* Controls */}
+                  <div className="flex justify-between items-center mt-2">
+                    <div className="flex gap-3">
+                       <button className="w-14 h-14 bg-white border-4 border-black rounded-xl flex items-center justify-center shadow-[4px_4px_0_#111111] hover:translate-y-1 hover:shadow-none transition-all active:bg-gray-200">
+                         <svg width="24" height="24" viewBox="0 0 24 24" fill="black" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="19 20 9 12 19 4 19 20"></polygon><line x1="5" y1="19" x2="5" y2="5" strokeWidth="4"></line></svg>
+                       </button>
+                       <button className="w-16 h-16 bg-[#6EF3A5] border-4 border-black rounded-xl flex items-center justify-center shadow-[4px_4px_0_#111111] hover:translate-y-1 hover:shadow-none transition-all active:bg-[#5CE093]">
+                         <svg width="24" height="24" viewBox="0 0 24 24" fill="black" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+                       </button>
+                       <button className="w-14 h-14 bg-white border-4 border-black rounded-xl flex items-center justify-center shadow-[4px_4px_0_#111111] hover:translate-y-1 hover:shadow-none transition-all active:bg-gray-200">
+                         <svg width="24" height="24" viewBox="0 0 24 24" fill="black" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 4 15 12 5 20 5 4"></polygon><line x1="19" y1="5" x2="19" y2="19" strokeWidth="4"></line></svg>
+                       </button>
+                    </div>
+
+                    {/* Volume Slider */}
+                    <div className="hidden sm:flex w-32 h-14 border-4 border-black bg-white rounded-xl items-center px-3 relative shadow-[4px_4px_0_#111111]">
+                       <svg width="18" height="18" viewBox="0 0 24 24" fill="black" stroke="black" strokeWidth="2" className="absolute left-3 z-10"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07" strokeWidth="3"></path></svg>
+                       <div className="absolute top-1/2 left-10 right-4 -translate-y-1/2 h-3 bg-gray-200 rounded-full overflow-hidden border-2 border-black">
+                         <div className="w-[70%] h-full bg-[#FFED4A] border-r-2 border-black"></div>
+                       </div>
+                       {/* Knob */}
+                       <div className="absolute top-1/2 left-[60%] -translate-y-1/2 w-5 h-8 bg-black rounded border-2 border-white cursor-pointer hover:scale-110 transition-transform"></div>
                     </div>
                   </div>
 
-                  {/* Block 4: Large Chart */}
-                  <div className="col-span-2 row-span-2 bg-gradient-to-br from-[#EAEFFF] to-white rounded-[2rem] p-6 flex flex-col justify-between shadow-lg border border-gray-100 relative overflow-hidden">
-                    <div className="flex justify-between items-start relative z-10">
-                      <div>
-                        <h4 className="text-[#8E84F3] font-black text-xl tracking-tight leading-none mb-1">BeatLink Revenue</h4>
-                        <span className="text-gray-400 font-bold text-[10px] uppercase tracking-widest">This Year</span>
-                      </div>
-                      <div className="text-right">
-                        <span className="block font-black text-3xl text-black tracking-tighter">$14.2K</span>
-                        <span className="text-red-500 font-bold text-xs flex items-center justify-end gap-1">
-                           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline><polyline points="17 18 23 18 23 12"></polyline></svg>
-                           -2.3%
-                        </span>
-                      </div>
-                    </div>
-                    {/* Graph SVG */}
-                    <div className="absolute bottom-0 left-0 w-full h-32 z-0">
-                      <svg viewBox="0 0 100 40" className="w-full h-full" preserveAspectRatio="none">
-                        <path d="M0,30 Q15,20 25,35 T50,25 T75,30 T100,10 L100,40 L0,40 Z" fill="url(#grad1)" opacity="0.3"></path>
-                        <path d="M0,30 Q15,20 25,35 T50,25 T75,30 T100,10" fill="none" stroke="#8E84F3" strokeWidth="2"></path>
-                        <circle cx="25" cy="35" r="2" fill="white" stroke="#8E84F3" strokeWidth="1"></circle>
-                        <circle cx="75" cy="30" r="2" fill="white" stroke="#8E84F3" strokeWidth="1"></circle>
-                        <defs>
-                          <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stopColor="#8E84F3" stopOpacity="1" />
-                            <stop offset="100%" stopColor="#8E84F3" stopOpacity="0" />
-                          </linearGradient>
-                        </defs>
-                      </svg>
-                    </div>
-                  </div>
-
-                  {/* Block 5: Small White Stat */}
-                  <div className="col-span-1 row-span-1 bg-white rounded-[2rem] p-5 flex flex-col justify-between shadow-lg border border-gray-100">
-                    <span className="text-gray-400 font-bold text-[10px] uppercase tracking-widest">Daily Plays</span>
-                    <span className="text-black font-black text-4xl tracking-tighter">84</span>
-                    <span className="text-[#1DB954] font-bold text-xs">+40%</span>
-                  </div>
-
-                  {/* Block 6: Wide Lime Banner */}
-                  <div className="col-span-2 row-span-1 bg-[#6EF3A5] rounded-[2rem] p-5 flex items-center justify-between shadow-lg">
-                    <div>
-                       <h4 className="text-black font-black text-xl tracking-tight leading-none mb-1">Monetize your link.</h4>
-                       <span className="text-black/70 font-bold text-xs uppercase tracking-widest">Direct to fans</span>
-                    </div>
-                    <div className="w-12 h-12 bg-black rounded-full flex items-center justify-center">
-                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-[#6EF3A5]"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                    </div>
-                  </div>
-
-                  {/* Block 7: Logo Block */}
-                  <div className="col-span-1 row-span-1 bg-[#8E84F3] rounded-[2rem] p-5 flex flex-col items-center justify-center shadow-lg group cursor-pointer overflow-hidden relative">
-                    <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=200')] bg-cover bg-center opacity-20 group-hover:scale-110 transition-transform duration-700"></div>
-                    <div className="relative z-10 text-center">
-                      <span className="text-white font-black text-3xl tracking-tighter block leading-none">BL.</span>
-                      <span className="text-white/70 font-bold text-[8px] uppercase tracking-widest mt-1">Platform</span>
-                    </div>
-                  </div>
-
-               </div>
+                  {/* Decorative Stickers */}
+                  <AsteriskSticker className="w-16 h-16 text-[#FFED4A] absolute -bottom-6 -left-6 z-20 animate-spin-slow" />
+                  <CrossSticker className="w-12 h-12 text-[#FF2D78] absolute -top-6 -right-6 rotate-12 z-20" />
+                </div>
              </div>
           </div>
 
           <div className="flex-1 space-y-6">
-            <h2 className="text-[3rem] md:text-[4rem] lg:text-[5rem] font-black leading-[0.95] tracking-tighter text-[#6EF3A5] relative z-10">
-              Drop your music, <br/>we handle the rest.
-              <ArrowNeo className="w-20 h-20 text-[#FFED4A] absolute -bottom-16 -right-10 md:right-10 rotate-[15deg] hidden md:block" />
+            <h2 className="text-[3rem] md:text-[4rem] lg:text-[5rem] font-black leading-[0.95] tracking-tighter relative z-10 flex flex-col">
+              <span className="font-thin italic font-serif text-white lowercase">drop your music,</span>
+              <span className="text-[#6EF3A5] uppercase">we handle</span>
+              <span className="text-[#FFED4A] uppercase" style={{ textShadow: '4px 4px 0 #111111' }}>the rest.</span>
+              <ArrowNeo className="w-20 h-20 text-[#FFED4A] absolute -bottom-6 -right-10 md:-right-4 rotate-[15deg] hidden md:block" />
             </h2>
             <p className="text-lg font-medium text-gray-300 max-w-lg leading-relaxed opacity-90">
               Your fans want everything in one place. Connect your Spotify, Apple Music, bandsintown, and Shopify store. BeatLink automatically routes them to the right app.
@@ -382,9 +360,11 @@ function App() {
           </div>
 
           <div className="flex-1 space-y-6">
-            <h2 className="text-[3rem] md:text-[4rem] lg:text-[5rem] font-black leading-[0.95] tracking-tighter text-[#111111] relative z-10">
+            <h2 className="text-[3rem] md:text-[4rem] lg:text-[5rem] font-black leading-[0.9] tracking-tighter text-[#111111] relative z-10 uppercase">
               <SpringNeo className="w-20 h-20 text-[#1DB954] absolute -top-12 -left-8 md:-left-12 -z-10 -rotate-12" />
-              Know exactly where your fans are listening.
+              Know exactly<br/>
+              <span className="font-thin italic font-serif lowercase tracking-normal text-[#111111]">where your</span><br/>
+              <span className="text-[#8E84F3]" style={{ textShadow: '-3px -3px 0 #111111, 3px -3px 0 #111111, -3px 3px 0 #111111, 3px 3px 0 #111111' }}>fans are.</span>
             </h2>
             <p className="text-lg font-medium text-gray-600 max-w-lg leading-relaxed">
               Powerful analytics let you track pre-saves, ticket conversions, and merch clicks in real-time. Know what's popping before the label does.
@@ -401,8 +381,10 @@ function App() {
         <div className="max-w-7xl mx-auto space-y-16">
           <div className="text-center max-w-3xl mx-auto relative z-10">
             <CrossSticker className="w-16 h-16 text-[#FFED4A] absolute -top-8 -left-4 md:-top-10 md:-left-12 rotate-12" />
-            <h2 className="text-[3rem] md:text-[4rem] lg:text-[5rem] font-black leading-[0.9] tracking-tighter text-black">
-              Everything you need. <br/><span className="text-[#8E84F3]">In one grid.</span>
+            <h2 className="text-[3rem] md:text-[4rem] lg:text-[5rem] font-black leading-[0.9] tracking-tighter text-black uppercase">
+              Everything<br/>
+              <span className="font-thin italic font-serif lowercase tracking-normal">you need.</span><br/>
+              <span className="text-[#8E84F3]" style={{ textShadow: '-3px -3px 0 #111111, 3px -3px 0 #111111, -3px 3px 0 #111111, 3px 3px 0 #111111' }}>One grid.</span>
             </h2>
           </div>
           
@@ -541,7 +523,11 @@ function App() {
       <section className="bg-[#0A0A0A] py-32 px-6 text-white pb-40">
         <div className="max-w-3xl mx-auto space-y-6">
           <div className="text-center mb-16 relative z-10">
-            <h2 className="text-[3rem] md:text-[4rem] font-black tracking-tighter text-[#6EF3A5]">Got questions?</h2>
+            <h2 className="text-[3rem] md:text-[4rem] font-black tracking-tighter text-[#6EF3A5] uppercase leading-[0.9]">
+              Got<br/>
+              <span className="font-thin italic font-serif lowercase tracking-normal text-[#6EF3A5]">all the</span><br/>
+              questions?
+            </h2>
             <PillSticker className="w-20 h-10 text-[#FFED4A] absolute -top-8 right-4 md:right-16 rotate-[25deg] hidden md:block" />
           </div>
           

@@ -12,25 +12,25 @@ export const CircleSticker = ({ className = "" }) => (
 
 export const AsteriskSticker = ({ className = "" }) => (
   <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
-    <path d="M50 10L50 90M10 50L90 50M20 20L80 80M20 80L80 20" stroke="#111111" strokeWidth="10" strokeLinecap="round"/>
+    <path d="M50 10L50 90M10 50L90 50M20 20L80 80M20 80L80 20" stroke="currentColor" strokeWidth="10" strokeLinecap="round"/>
   </svg>
 );
 
 export const ZigZag = ({ className = "" }) => (
   <svg viewBox="0 0 100 40" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
-    <path d="M5 20L20 5L40 35L60 5L80 35L95 20" stroke="#111111" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M5 20L20 5L40 35L60 5L80 35L95 20" stroke="currentColor" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 );
 
 export const ArrowNeo = ({ className = "" }) => (
   <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
-    <path d="M20 80L80 20M80 20V70M80 20H30" stroke="#111111" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M20 80L80 20M80 20V70M80 20H30" stroke="currentColor" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 );
 
 export const CrossSticker = ({ className = "" }) => (
   <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
-    <path d="M20 20L80 80M80 20L20 80" stroke="#111111" strokeWidth="12" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M20 20L80 80M80 20L20 80" stroke="currentColor" strokeWidth="12" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 );
 
@@ -43,7 +43,7 @@ export const PillSticker = ({ className = "" }) => (
 
 export const SpringNeo = ({ className = "" }) => (
   <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
-    <path d="M10 50C10 20 40 20 40 50C40 80 70 80 70 50C70 20 90 20 90 50" stroke="#111111" strokeWidth="8" strokeLinecap="round"/>
+    <path d="M10 50C10 20 40 20 40 50C40 80 70 80 70 50C70 20 90 20 90 50" stroke="currentColor" strokeWidth="8" strokeLinecap="round"/>
   </svg>
 );
 
