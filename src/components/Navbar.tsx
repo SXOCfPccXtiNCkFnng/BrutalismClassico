@@ -43,7 +43,7 @@ export const Navbar = () => {
             className="hidden md:flex items-center justify-center w-12 h-12 rounded-full border-2 border-brand-black text-brand-black bg-brand-yellow hover:scale-110 transition-transform shadow-[4px_4px_0_var(--brand-black)]"
             title="Inverter Cores (Modo Dark/Caos)"
           >
-            <SmileNeo className="w-7 h-7" />
+            <SmileNeo className="w-7 h-7 text-brand-white" />
           </button>
           <button className="hidden md:block font-bold text-brand-black bg-brand-surface hover:brightness-90 px-6 py-3.5 rounded-full text-sm md:text-base transition-colors border-2 border-transparent hover:border-brand-black">Log In</button>
           <button className="hidden sm:block bg-brand-black text-brand-white font-bold text-sm md:text-base px-6 py-3.5 rounded-full hover:scale-105 transition-transform">Sign up</button>
@@ -82,7 +82,7 @@ export const Navbar = () => {
             onClick={() => document.documentElement.setAttribute('data-theme', document.documentElement.getAttribute('data-theme') === 'inverted' ? '' : 'inverted')}
             className="md:hidden flex items-center justify-center gap-4 w-full mt-4 py-4 rounded-full border-4 border-brand-black bg-brand-yellow font-black text-xl hover:bg-brand-pink transition-colors"
           >
-            <SmileNeo className="w-7 h-7" /> Invert Theme
+            <SmileNeo className="w-7 h-7 text-brand-white" /> Invert Theme
           </button>
         </div>
       </div>
