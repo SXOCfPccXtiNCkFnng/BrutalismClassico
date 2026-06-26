@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { AsteriskSticker, SmileNeo } from './BrutalistIcons';
 
 export const Navbar = () => {
   const [isNavVisible, setIsNavVisible] = useState(true);
@@ -26,7 +27,7 @@ export const Navbar = () => {
       <div className="max-w-7xl mx-auto bg-brand-white rounded-full h-20 flex items-center justify-between px-4 md:px-8 border-4 border-brand-black shadow-[8px_8px_0_var(--brand-black)] relative z-50">
         <div className="flex items-center gap-8 xl:gap-12">
           <span className="text-2xl md:text-3xl font-black tracking-tight text-brand-black flex items-center gap-1 shrink-0">
-            BeatLink<span className="text-[1.5rem] mt-1"></span>
+            BeatLink<AsteriskSticker className="w-8 h-8 ml-1" />
           </span>
           <div className="hidden xl:flex items-center gap-1 font-bold text-brand-muted text-sm xl:text-base">
             <a href="#" className="hover:bg-brand-surface hover:text-brand-black px-4 py-3 rounded-full transition-all">Products</a>
@@ -42,7 +43,7 @@ export const Navbar = () => {
             className="hidden md:flex items-center justify-center w-12 h-12 rounded-full border-2 border-brand-black text-brand-black bg-brand-yellow hover:scale-110 transition-transform shadow-[4px_4px_0_var(--brand-black)]"
             title="Inverter Cores (Modo Dark/Caos)"
           >
-            ☯
+            <SmileNeo className="w-7 h-7" />
           </button>
           <button className="hidden md:block font-bold text-brand-black bg-brand-surface hover:brightness-90 px-6 py-3.5 rounded-full text-sm md:text-base transition-colors border-2 border-transparent hover:border-brand-black">Log In</button>
           <button className="hidden sm:block bg-brand-black text-brand-white font-bold text-sm md:text-base px-6 py-3.5 rounded-full hover:scale-105 transition-transform">Sign up</button>
@@ -81,7 +82,7 @@ export const Navbar = () => {
             onClick={() => document.documentElement.setAttribute('data-theme', document.documentElement.getAttribute('data-theme') === 'inverted' ? '' : 'inverted')}
             className="md:hidden flex items-center justify-center gap-4 w-full mt-4 py-4 rounded-full border-4 border-brand-black bg-brand-yellow font-black text-xl hover:bg-brand-pink transition-colors"
           >
-            ☯ Invert Theme
+            <SmileNeo className="w-7 h-7" /> Invert Theme
           </button>
         </div>
       </div>

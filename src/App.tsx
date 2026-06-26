@@ -43,11 +43,11 @@ const CarouselCard = ({ item }: { item: typeof carouselItems[0] }) => {
         </div>
         {/* Back */}
         <div 
-          className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] rounded-[3rem] border-4 border-brand-black p-8 flex flex-col justify-center items-center text-center"
+          className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] rounded-[3rem] border-4 border-brand-black p-6 md:p-8 flex flex-col justify-center items-center text-center overflow-hidden"
           style={{ backgroundColor: item.color, boxShadow: '8px 8px 0 var(--brand-black)' }}
         >
-           <h4 className={`text-3xl font-black uppercase tracking-tighter mb-4 ${item.color === 'var(--brand-black)' ? 'text-brand-white' : 'text-brand-black'}`}>{item.backTitle}</h4>
-           <p className={`font-bold text-base leading-snug ${item.color === 'var(--brand-black)' ? 'text-brand-muted' : 'text-brand-muted'}`}>{item.backText}</p>
+           <h4 className={`text-2xl md:text-3xl font-black uppercase tracking-tighter mb-4 ${item.color === 'var(--brand-black)' ? 'text-brand-white' : 'text-brand-black'}`}>{item.backTitle}</h4>
+           <p className={`font-bold text-sm md:text-base leading-snug w-full break-words whitespace-normal ${item.color === 'var(--brand-black)' ? 'text-brand-muted' : 'text-brand-black/80'}`}>{item.backText}</p>
         </div>
       </div>
     </div>
