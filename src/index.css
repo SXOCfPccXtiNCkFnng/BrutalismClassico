@@ -70,3 +70,21 @@ img {
   user-drag: none;
   user-select: none;
 }
+
+/* --- Neo-Brutalist Custom Scrollbar --- */
+::-webkit-scrollbar {
+  width: 16px; /* Mais larga, estética blocada */
+  height: 16px;
+}
+::-webkit-scrollbar-track {
+  background: var(--brand-surface);
+  border-left: 3px solid var(--brand-black); /* Borda dura dividindo do conteúdo */
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--brand-pink);
+  border-left: 3px solid var(--brand-black);
+  border-bottom: 3px solid var(--brand-black);
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--brand-cyan);
+}
