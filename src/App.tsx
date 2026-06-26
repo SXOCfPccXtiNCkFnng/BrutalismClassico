@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { BentoCard } from './components/BentoCard';
 import { Navbar } from './components/Navbar';
 import { Faq } from './components/Faq';
 import { Footer } from './components/Footer';
