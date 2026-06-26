@@ -26,7 +26,7 @@ export const Navbar = () => {
       <div className="max-w-7xl mx-auto bg-brand-white rounded-full h-20 flex items-center justify-between px-4 md:px-8 border-4 border-brand-black shadow-[8px_8px_0_var(--brand-black)] relative z-50">
         <div className="flex items-center gap-8 xl:gap-12">
           <span className="text-2xl md:text-3xl font-black tracking-tight text-brand-black flex items-center gap-1 shrink-0">
-            BeatLink<span className="text-[1.5rem] mt-1">✳</span>
+            BeatLink<span className="text-[1.5rem] mt-1"></span>
           </span>
           <div className="hidden xl:flex items-center gap-1 font-bold text-brand-muted text-sm xl:text-base">
             <a href="#" className="hover:bg-brand-surface hover:text-brand-black px-4 py-3 rounded-full transition-all">Products</a>

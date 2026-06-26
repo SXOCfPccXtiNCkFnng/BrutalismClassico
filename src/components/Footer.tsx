@@ -16,7 +16,7 @@ export const Footer = () => {
         <div className="flex flex-col lg:flex-row justify-between items-start gap-12 lg:gap-20 mb-16">
           <div className="flex-1 max-w-sm">
              <span className="text-4xl font-black tracking-tighter text-brand-black flex items-center gap-1 mb-6">
-              BeatLink<span className="text-[2rem] mt-1 text-brand-green">✳</span>
+              BeatLink<span className="text-[2rem] mt-1 text-brand-green"></span>
              </span>
              <p className="font-bold text-brand-muted text-lg">
                 The loudest link-in-bio for artists who break the rules. Drop your tracks, build your cult.
